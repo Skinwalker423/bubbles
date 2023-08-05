@@ -1,12 +1,18 @@
-import React from "react";
+import React, { use } from "react";
 import { UserButton, auth } from "@clerk/nextjs";
 import Link from "next/link";
 import Image from "next/image";
+import {
+  SignedIn,
+  SignOutButton,
+  OrganizationSwitcher,
+} from "@clerk/nextjs";
 
 const NavBar = () => {
   const data = auth();
 
   const userId = data.userId;
+  console.log(userId);
 
   return (
     <nav className='topbar'>
@@ -21,11 +27,35 @@ const NavBar = () => {
           Bubbles
         </span>
       </Link>
-      {userId ? (
-        <UserButton />
-      ) : (
-        <Link href={"/sign-in"}>Sign In</Link>
-      )}
+      <div className='flex items-center gap-1'>
+        {!userId && (
+          <Link className='text-light-1' href={"/sign-in"}>
+            Sign In
+          </Link>
+        )}
+        <div className='block md:hidden'>
+          <SignedIn>
+            <SignOutButton>
+              <div className='flex cursor-pointer'>
+                <Image
+                  src={"/assets/logout.svg"}
+                  alt='logout icon'
+                  width={24}
+                  height={24}
+                />
+              </div>
+            </SignOutButton>
+          </SignedIn>
+        </div>
+        <OrganizationSwitcher
+          appearance={{
+            elements: {
+              organizationSwitcherTrigger:
+                "py-2 px-4 text-white",
+            },
+          }}
+        />
+      </div>
     </nav>
   );
 };
