@@ -10,13 +10,16 @@ const NavBar = () => {
 
   return (
     <nav className='topbar'>
-      <Link href={"/"}>
+      <Link className='flex items-center gap-4' href={"/"}>
         <Image
-          src={"/assets/logo.svg"}
+          src={"/assets/bubbles2.png"}
           alt='Bubbles logo'
           width={60}
           height={60}
         />
+        <span className='text-light-1 text-heading3-bold max-xs:hidden'>
+          Bubbles
+        </span>
       </Link>
       {userId ? (
         <UserButton />
