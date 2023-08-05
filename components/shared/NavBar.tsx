@@ -1,6 +1,7 @@
 import React from "react";
 import { UserButton, auth } from "@clerk/nextjs";
 import Link from "next/link";
+import Image from "next/image";
 
 const NavBar = () => {
   const data = auth();
@@ -8,8 +9,15 @@ const NavBar = () => {
   const userId = data.userId;
 
   return (
-    <nav className='flex justify-between items-center w-full py-3 px-10 bg-slate-200'>
-      <div>Logo</div>
+    <nav className='topbar'>
+      <Link href={"/"}>
+        <Image
+          src={"/assets/logo.svg"}
+          alt='Bubbles logo'
+          width={60}
+          height={60}
+        />
+      </Link>
       {userId ? (
         <UserButton />
       ) : (
