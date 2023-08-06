@@ -1,17 +1,28 @@
+"use client";
+
 import React from "react";
 import { sidebarLinks } from "@/constants";
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname, useRouter } from "next/navigation";
 
 const LeftSideBar = () => {
+  const router = useRouter();
+  const path = usePathname();
+
   return (
     <section className='custom-scrollbar leftsidebar'>
       <div className='flex w-full flex-1 flex-col gap-6 px-6'>
         {sidebarLinks.map(({ imgURL, label, route }) => {
+          const isActive =
+            route === path ||
+            (path.includes(route) && route.length > 1);
           return (
             <Link
               key={label}
-              className='leftsidebar_link group relative'
+              className={`leftsidebar_link group relative ${
+                isActive && "bg-red-500"
+              }`}
               href={route}
             >
               <Image
