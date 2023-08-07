@@ -31,7 +31,7 @@ const Footer = () => {
                 height={2}
               />
 
-              <p className='text-light-1 max-lg:hidden'>
+              <p className='text-light-1 text-subtle-medium max-sm:hidden text-center truncate w-[76px]'>
                 {label}
               </p>
               <span
