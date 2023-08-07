@@ -7,6 +7,7 @@ import {
   SignOutButton,
   OrganizationSwitcher,
 } from "@clerk/nextjs";
+import { dark } from "@clerk/themes";
 
 const NavBar = () => {
   const data = auth();
@@ -49,9 +50,9 @@ const NavBar = () => {
         </div>
         <OrganizationSwitcher
           appearance={{
+            baseTheme: dark,
             elements: {
-              organizationSwitcherTrigger:
-                "py-2 px-4 text-white",
+              organizationSwitcherTrigger: "py-2 px-4",
             },
           }}
         />
