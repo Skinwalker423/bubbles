@@ -2,9 +2,27 @@ import React from "react";
 import { UserButton } from "@clerk/nextjs";
 import AccountProfile from "@/components/forms/AccountProfile";
 import { currentUser } from "@clerk/nextjs";
+import { User } from "@clerk/nextjs/server";
+
+export interface UserDataProps {
+  id?: string;
+  username: string;
+  name: string;
+  bio: string;
+  image: string;
+  objectId: string;
+}
 
 const Onboarding = async () => {
   const user = await currentUser();
+
+  // interface UserInfoProps {
+  //   _id: string;
+  //   username: string;
+  //   name: string;
+  //   bio: string;
+  //   image: string;
+  // }
 
   const userInfo = {
     _id: "",
@@ -14,13 +32,13 @@ const Onboarding = async () => {
     image: "",
   };
 
-  const userData = {
+  const userData: UserDataProps = {
     id: user?.id,
     objectId: userInfo?._id,
     username: user?.username || userInfo.username,
     name: user?.lastName || userInfo.name || "",
     bio: userInfo?.bio || "",
-    image: userInfo?.image || user?.imageUrl,
+    image: userInfo?.image || user?.imageUrl || "",
   };
 
   return (
@@ -30,7 +48,10 @@ const Onboarding = async () => {
         Complete your profile to use Bubbles
       </p>
       <section className='mt-9 bg-dark-2 p-10'>
-        <AccountProfile />
+        <AccountProfile
+          user={userData}
+          btnTitle={"Continue"}
+        />
       </section>
       <UserButton />
     </main>
