@@ -5,6 +5,7 @@ import { UserDataProps } from "@/app/(auth)/onboarding/page";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import * as z from "zod";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Form,
   FormControl,
@@ -56,40 +57,39 @@ const AccountProfile = ({
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit(onSubmit)}
         className='flex flex-col justify-start gap-10'
+        onSubmit={form.handleSubmit(onSubmit)}
       >
         <FormField
           control={form.control}
           name='profile_photo'
           render={({ field }) => (
-            <FormItem className='flex items-center gap-4 '>
-              <FormLabel className='account-form_image-label '>
-                {field?.value ? (
+            <FormItem className='flex items-center gap-4'>
+              <FormLabel className='account-form_image-label'>
+                {field.value ? (
                   <Image
-                    className='rounded-full object-contain'
                     src={field.value}
+                    alt='profile_icon'
                     width={96}
                     height={96}
-                    alt={"profile photo"}
                     priority
+                    className='rounded-full object-contain'
                   />
                 ) : (
                   <Image
-                    className='object-contain '
-                    src={"/assets/profile.svg"}
+                    src='/assets/profile.svg'
+                    alt='profile_icon'
                     width={24}
                     height={24}
-                    alt={"profile photo"}
-                    priority
+                    className='object-contain'
                   />
                 )}
               </FormLabel>
-              <FormControl className='flex-1 text-base-semibold text-gray-200 border'>
+              <FormControl className='flex-1 text-base-semibold text-gray-200'>
                 <Input
                   type='file'
-                  accept='image/'
-                  placeholder='upload a photo'
+                  accept='image/*'
+                  placeholder='Add profile photo'
                   className='account-form_image-input'
                   onChange={(e) =>
                     handleChangeImage(e, field.onChange)
@@ -99,7 +99,70 @@ const AccountProfile = ({
             </FormItem>
           )}
         />
-        <Button type='submit'>Submit</Button>
+
+        <FormField
+          control={form.control}
+          name='name'
+          render={({ field }) => (
+            <FormItem className='flex w-full flex-col gap-3'>
+              <FormLabel className='text-base-semibold text-light-2'>
+                Name
+              </FormLabel>
+              <FormControl>
+                <Input
+                  type='text'
+                  className='account-form_input no-focus'
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name='username'
+          render={({ field }) => (
+            <FormItem className='flex w-full flex-col gap-3'>
+              <FormLabel className='text-base-semibold text-light-2'>
+                Username
+              </FormLabel>
+              <FormControl>
+                <Input
+                  type='text'
+                  className='account-form_input no-focus'
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name='bio'
+          render={({ field }) => (
+            <FormItem className='flex w-full flex-col gap-3'>
+              <FormLabel className='text-base-semibold text-light-2'>
+                Bio
+              </FormLabel>
+              <FormControl>
+                <Textarea
+                  rows={10}
+                  className='account-form_input no-focus'
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <Button type='submit' className='bg-primary-500'>
+          {btnTitle}
+        </Button>
       </form>
     </Form>
   );
