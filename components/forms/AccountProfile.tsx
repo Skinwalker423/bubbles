@@ -1,6 +1,6 @@
 "use client";
 
-import React, { ChangeEvent } from "react";
+import React, { ChangeEvent, useState } from "react";
 import { UserDataProps } from "@/app/(auth)/onboarding/page";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
@@ -29,7 +29,7 @@ const AccountProfile = ({
   user,
   btnTitle,
 }: AccountProfileProps) => {
-  console.log(user.image);
+  const [files, setFiles] = useState<File[]>([]);
 
   const form = useForm({
     resolver: zodResolver(UserValidation),
@@ -54,6 +54,22 @@ const AccountProfile = ({
     fieldChange: (value: string) => void
   ) {
     e.preventDefault();
+    const fileReader = new FileReader();
+    if (e.target.files?.length) {
+      const file = e.target.files[0];
+      if (!file.type.includes("image")) return;
+      console.log(file.type);
+      setFiles(Array.from(e.target.files));
+
+      fileReader.onload = async (e) => {
+        const imageDataUrl =
+          e.target?.result?.toString() || "";
+
+        fieldChange(imageDataUrl);
+      };
+
+      fileReader.readAsDataURL(file);
+    }
   }
 
   return (
