@@ -35,9 +35,9 @@ const AccountProfile = ({
     resolver: zodResolver(UserValidation),
     defaultValues: {
       profile_photo: user.image,
-      name: "",
-      username: "",
-      bio: "",
+      name: user.name,
+      username: user.username,
+      bio: user.bio,
     },
   });
 
