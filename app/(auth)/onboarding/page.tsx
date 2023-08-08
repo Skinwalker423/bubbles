@@ -53,7 +53,6 @@ const Onboarding = async () => {
           btnTitle={"Continue"}
         />
       </section>
-      <UserButton />
     </main>
   );
 };
