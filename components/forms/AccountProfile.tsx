@@ -30,6 +30,7 @@ const AccountProfile = ({
   btnTitle,
 }: AccountProfileProps) => {
   const [files, setFiles] = useState<File[]>([]);
+  console.log(files);
 
   const form = useForm({
     resolver: zodResolver(UserValidation),
@@ -91,7 +92,11 @@ const AccountProfile = ({
                     width={96}
                     height={96}
                     priority
-                    className='rounded-full object-contain'
+                    style={{
+                      width: "100%",
+                      height: "auto",
+                    }}
+                    className='rounded-full object-contain w-full h-auto'
                   />
                 ) : (
                   <Image
@@ -99,7 +104,7 @@ const AccountProfile = ({
                     alt='profile_icon'
                     width={24}
                     height={24}
-                    className='object-contain'
+                    className='object-contain w-full h-auto'
                   />
                 )}
               </FormLabel>
