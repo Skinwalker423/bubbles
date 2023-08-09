@@ -19,6 +19,10 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { UserValidation } from "@/lib/validations/user";
 import Image from "next/image";
+import {
+  useUploadThing,
+  uploadFiles,
+} from "@/lib/uploadthing";
 
 interface AccountProfileProps {
   user: UserDataProps;
@@ -31,6 +35,8 @@ const AccountProfile = ({
 }: AccountProfileProps) => {
   const [files, setFiles] = useState<File[]>([]);
   console.log(files);
+
+  const { startUpload } = useUploadThing("media");
 
   const form = useForm({
     resolver: zodResolver(UserValidation),
@@ -47,6 +53,9 @@ const AccountProfile = ({
   ) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
+
+    const blob = values.profile_photo;
+
     console.log(values);
   }
 
