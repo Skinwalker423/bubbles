@@ -18,6 +18,7 @@ import {
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { UserValidation } from "@/lib/validations/user";
+import { isBase64Image } from "@/lib/utils";
 import Image from "next/image";
 import {
   useUploadThing,
@@ -48,16 +49,26 @@ const AccountProfile = ({
     },
   });
 
-  function onSubmit(
+  const onSubmit = async (
     values: z.infer<typeof UserValidation>
-  ) {
+  ) => {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
 
     const blob = values.profile_photo;
 
-    console.log(values);
-  }
+    const hasImageChanged = isBase64Image(blob);
+
+    if (hasImageChanged) {
+      const imgRes = await startUpload(files);
+
+      if (imgRes && imgRes[0].fileUrl) {
+        values.profile_photo = imgRes[0].fileUrl;
+      }
+    }
+
+    //TODO backend stuff
+  };
 
   function handleChangeImage(
     e: ChangeEvent<HTMLInputElement>,
