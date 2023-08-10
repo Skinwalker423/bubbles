@@ -81,10 +81,16 @@ const AccountProfile = ({
       name: values.name,
       bio: values.bio,
       image: values.profile_photo,
-      pathname,
+      path: pathname,
     };
 
     const updatedUser = await updateUser(updatedUserData);
+
+    if (pathname === "/profile/edit") {
+      router.back();
+    } else {
+      router.push("/");
+    }
   };
 
   function handleChangeImage(

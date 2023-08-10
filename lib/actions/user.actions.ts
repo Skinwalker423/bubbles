@@ -2,17 +2,22 @@
 
 import { connectToMongoDb } from "../mongoose";
 import User from "../models/user.model";
+import { revalidatePath } from "next/cache";
 
-export const updateUser = async (updatedUserData: {
+interface UpdatedUserDataProps {
   userId: string;
   username: string;
   name: string;
   bio: string;
   image: string;
-  pathname: string;
-}): Promise<void> => {
+  path: string;
+}
+
+export const updateUser = async (
+  updatedUserData: UpdatedUserDataProps
+): Promise<void> => {
   connectToMongoDb();
-  const { bio, image, name, pathname, userId, username } =
+  const { bio, image, name, path, userId, username } =
     updatedUserData;
   try {
     const newUser = await User.findOneAndUpdate(
@@ -21,13 +26,17 @@ export const updateUser = async (updatedUserData: {
         username: username.toLowerCase(),
         name,
         bio,
-        path: pathname,
+        path,
         image,
       },
       {
         upsert: true,
       }
     );
+
+    if (path === "/profile/edit") {
+      revalidatePath(path);
+    }
   } catch (error: any) {
     throw new Error(
       `Failed to create/update user: ${error}`
