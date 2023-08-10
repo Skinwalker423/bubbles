@@ -24,6 +24,8 @@ import {
   useUploadThing,
   uploadFiles,
 } from "@/lib/uploadthing";
+import { updateUser } from "@/lib/actions/user.actions";
+import { useRouter, usePathname } from "next/navigation";
 
 interface AccountProfileProps {
   user: UserDataProps;
@@ -38,6 +40,9 @@ const AccountProfile = ({
   console.log(files);
 
   const { startUpload } = useUploadThing("media");
+
+  const pathname = usePathname();
+  const router = useRouter();
 
   const form = useForm({
     resolver: zodResolver(UserValidation),
@@ -68,6 +73,18 @@ const AccountProfile = ({
     }
 
     //TODO backend stuff
+    if (!user.id) throw new Error("no user id");
+
+    const updatedUserData = {
+      userId: user.id,
+      username: values.username,
+      name: values.name,
+      bio: values.bio,
+      image: values.profile_photo,
+      pathname,
+    };
+
+    const updatedUser = await updateUser(updatedUserData);
   };
 
   function handleChangeImage(
