@@ -1,6 +1,6 @@
 import mongoose, { ConnectOptions } from "mongoose";
 
-const isConnected = false;
+let isConnected = false;
 
 export const connectToMongoDb = async () => {
   mongoose.set("strictQuery", true);
@@ -10,15 +10,12 @@ export const connectToMongoDb = async () => {
   if (isConnected) return console.log("already connected");
 
   try {
-    const client = mongoose.connect(
-      process.env.MONGODB_URL,
-      {
-        dbName: "bubbles",
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-      } as ConnectOptions
-    );
-    return client;
+    await mongoose.connect(process.env.MONGODB_URL, {
+      dbName: "bubbles",
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    } as ConnectOptions);
+    isConnected = true;
   } catch (error) {
     console.log(error);
   }
