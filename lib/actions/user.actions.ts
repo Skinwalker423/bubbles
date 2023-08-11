@@ -43,3 +43,17 @@ export const updateUser = async (
     );
   }
 };
+
+export const fetchUser = async (id: string) => {
+  try {
+    await connectToMongoDb();
+    return await User.findOne({
+      id,
+    }).populate({
+      path: "communities",
+      model: "Community",
+    });
+  } catch (error) {
+    throw new Error("problem fetching user", error as any);
+  }
+};
