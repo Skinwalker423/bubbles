@@ -28,6 +28,7 @@ export const updateUser = async (
         bio,
         path,
         image,
+        onboarded: true,
       },
       {
         upsert: true,
