@@ -34,7 +34,7 @@ const LeftSideBar = () => {
                 src={imgURL}
                 alt={label}
                 width={24}
-                height={2}
+                height={24}
               />
 
               <p className='text-light-1 max-lg:hidden'>
