@@ -1,8 +1,8 @@
 import React from "react";
-import { UserButton } from "@clerk/nextjs";
 import AccountProfile from "@/components/forms/AccountProfile";
 import { currentUser } from "@clerk/nextjs";
-import { User } from "@clerk/nextjs/server";
+import User from "@/lib/models/user.model";
+import { redirect } from "next/navigation";
 
 export interface UserDataProps {
   id?: string;
@@ -16,13 +16,14 @@ export interface UserDataProps {
 const Onboarding = async () => {
   const user = await currentUser();
 
-  // interface UserInfoProps {
-  //   _id: string;
-  //   username: string;
-  //   name: string;
-  //   bio: string;
-  //   image: string;
-  // }
+  const userInDb = await User.find({
+    id: user?.id,
+  });
+  console.log(userInDb);
+
+  if (userInDb) {
+    redirect("/");
+  }
 
   const userInfo = {
     _id: "",

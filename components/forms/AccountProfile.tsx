@@ -64,27 +64,37 @@ const AccountProfile = ({
 
     const hasImageChanged = isBase64Image(blob);
 
-    if (hasImageChanged) {
-      const imgRes = await startUpload(files);
+    try {
+      if (hasImageChanged) {
+        const imgRes = await startUpload(files);
+        console.log(imgRes);
 
-      if (imgRes && imgRes[0].fileUrl) {
-        values.profile_photo = imgRes[0].fileUrl;
+        if (imgRes && imgRes[0].fileUrl) {
+          values.profile_photo = imgRes[0].fileUrl;
+        }
       }
+
+      //TODO backend stuff
+      if (!user.id) throw new Error("no user id");
+
+      const updatedUserData = {
+        userId: user.id,
+        username: values.username,
+        name: values.name,
+        bio: values.bio,
+        image: values.profile_photo,
+        path: pathname,
+      };
+
+      const updatedUser = await updateUser(updatedUserData);
+
+      console.log("updated user:", updatedUser);
+    } catch (error) {
+      console.error(
+        "something went wrong updating user",
+        error
+      );
     }
-
-    //TODO backend stuff
-    if (!user.id) throw new Error("no user id");
-
-    const updatedUserData = {
-      userId: user.id,
-      username: values.username,
-      name: values.name,
-      bio: values.bio,
-      image: values.profile_photo,
-      path: pathname,
-    };
-
-    const updatedUser = await updateUser(updatedUserData);
 
     if (pathname === "/profile/edit") {
       router.back();
