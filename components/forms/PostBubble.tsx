@@ -39,7 +39,7 @@ const PostBubble = ({ userId }: PostBubbleProps) => {
     <Form {...form}>
       <h2 className='text-light-2'>Post Bubble</h2>
       <form
-        className='flex flex-col justify-start gap-10'
+        className='flex flex-col justify-start gap-10 max-w-2xl mt-10'
         onSubmit={form.handleSubmit(onSubmit)}
       >
         <FormField
@@ -51,9 +51,9 @@ const PostBubble = ({ userId }: PostBubbleProps) => {
                 Bubble
               </FormLabel>
               <FormControl>
-                <Input
-                  type='text'
+                <Textarea
                   className='account-form_input no-focus'
+                  rows={10}
                   {...field}
                 />
               </FormControl>
@@ -61,6 +61,9 @@ const PostBubble = ({ userId }: PostBubbleProps) => {
             </FormItem>
           )}
         />
+        <Button type='submit' className='bg-primary-500'>
+          Create Bubble
+        </Button>
       </form>
     </Form>
   );
