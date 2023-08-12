@@ -35,6 +35,7 @@ const PostBubble = ({ userId }: PostBubbleProps) => {
   const onSubmit = async (
     values: z.infer<typeof BubbleValidation>
   ) => {};
+
   return (
     <Form {...form}>
       <h2 className='text-light-2'>Post Bubble</h2>
