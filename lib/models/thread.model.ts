@@ -1,7 +1,12 @@
 import mongoose from "mongoose";
 
 const BubbleSchema = new mongoose.Schema({
-  title: {
+  bubble: {
+    type: String,
+    required: true,
+    min: 3,
+  },
+  accountId: {
     type: String,
     required: true,
   },

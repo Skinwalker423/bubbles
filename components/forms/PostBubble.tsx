@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { FormEvent } from "react";
 import { UserDataProps } from "@/app/(auth)/onboarding/page";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
@@ -27,14 +27,41 @@ const PostBubble = ({ userId }: PostBubbleProps) => {
   const form = useForm({
     resolver: zodResolver(BubbleValidation),
     defaultValues: {
-      title: "test",
       bubble: "",
       accountId: userId,
     },
   });
+
+  const onSubmit = async (
+    values: z.infer<typeof BubbleValidation>
+  ) => {};
   return (
     <Form {...form}>
       <h2 className='text-light-2'>Post Bubble</h2>
+      <form
+        className='flex flex-col justify-start gap-10'
+        onSubmit={form.handleSubmit(onSubmit)}
+      >
+        <FormField
+          control={form.control}
+          name='bubble'
+          render={({ field }) => (
+            <FormItem className='flex w-full flex-col gap-3'>
+              <FormLabel className='text-base-semibold text-light-2'>
+                Bubble
+              </FormLabel>
+              <FormControl>
+                <Input
+                  type='text'
+                  className='account-form_input no-focus'
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      </form>
     </Form>
   );
 };

@@ -20,7 +20,7 @@ const CreateThread = async () => {
   return (
     <div>
       <h1 className='head-text'>Create Bubble</h1>
-      <PostBubble userId={userInfo._id} />
+      <PostBubble userId={userInfo._id.toString()} />
     </div>
   );
 };
