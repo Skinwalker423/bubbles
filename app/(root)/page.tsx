@@ -1,15 +1,11 @@
-import { connectToMongoDb } from "@/lib/mongoose";
-import Bubble from "@/lib/models/bubble.model";
 import Image from "next/image";
+import { fetchBubbles } from "@/lib/actions/bubble.actions";
 
 export default async function Home() {
-  const bubbles = await Bubble.find({}).populate({
-    path: "author",
-    model: "User",
-  });
-  console.log(bubbles);
+  const { posts, isNext } = await fetchBubbles();
+  console.log(posts);
 
-  const bubblesList = bubbles.map((bubble) => {
+  const bubblesList = posts.map((bubble) => {
     return (
       <div className='border border-white'>
         <h2 className='flex items-center gap-2'>

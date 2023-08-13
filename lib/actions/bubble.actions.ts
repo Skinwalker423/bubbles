@@ -45,15 +45,51 @@ export const createBubble = async (
   }
 };
 
-export const fetchBubbles = async () => {
+export const fetchBubbles = async (
+  pageNumber = 1,
+  pageSize = 20
+) => {
   try {
     await connectToMongoDb();
-    const bubbles = await Bubble.find({}).populate({
-      path: "author",
-      model: "User",
-    });
+
+    const skip = pageSize * (pageNumber - 1);
+
+    const bubbles = Bubble.find({
+      parentId: {
+        $in: [null, undefined],
+      },
+    })
+      .sort({
+        createdAt: "desc",
+      })
+      .skip(skip)
+      .limit(pageSize)
+
+      .populate({
+        path: "author",
+        model: "User",
+      })
+      .populate({
+        path: "children",
+        populate: {
+          path: "author",
+          model: "User",
+          select: "_id name parentId image",
+        },
+      });
     console.log(bubbles);
-    return bubbles;
+
+    const totalPostCount = await Bubble.countDocuments({
+      parentId: {
+        $in: [null, undefined],
+      },
+    });
+
+    const posts = await bubbles.exec();
+
+    const isNext = totalPostCount > posts.length + skip;
+
+    return { posts, isNext };
   } catch (error) {
     throw new Error(
       "problem fetching bubbles",
