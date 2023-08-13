@@ -44,3 +44,20 @@ export const createBubble = async (
     );
   }
 };
+
+export const fetchBubbles = async () => {
+  try {
+    await connectToMongoDb();
+    const bubbles = await Bubble.find({}).populate({
+      path: "author",
+      model: "User",
+    });
+    console.log(bubbles);
+    return bubbles;
+  } catch (error) {
+    throw new Error(
+      "problem fetching bubbles",
+      error as any
+    );
+  }
+};
