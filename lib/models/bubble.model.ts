@@ -6,7 +6,7 @@ const BubbleSchema = new mongoose.Schema({
     required: true,
     min: 3,
   },
-  communityId: {
+  community: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Community",
   },
