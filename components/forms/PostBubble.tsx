@@ -19,11 +19,15 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter, usePathname } from "next/navigation";
 import { BubbleValidation } from "@/lib/validations/bubble";
+import { createBubble } from "@/lib/actions/bubble.actions";
 interface PostBubbleProps {
   userId: string;
 }
 
 const PostBubble = ({ userId }: PostBubbleProps) => {
+  const router = useRouter();
+  const pathname = usePathname();
+
   const form = useForm({
     resolver: zodResolver(BubbleValidation),
     defaultValues: {
@@ -34,7 +38,17 @@ const PostBubble = ({ userId }: PostBubbleProps) => {
 
   const onSubmit = async (
     values: z.infer<typeof BubbleValidation>
-  ) => {};
+  ) => {
+    const bubbleData = {
+      author: values.accountId,
+      path: pathname,
+      text: values.bubble,
+      communityId: null,
+    };
+    await createBubble(bubbleData);
+
+    router.push("/");
+  };
 
   return (
     <Form {...form}>
