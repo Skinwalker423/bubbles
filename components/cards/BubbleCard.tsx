@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 interface BubbleCardProps {
@@ -21,7 +22,7 @@ interface BubbleCardProps {
   };
   createdAt: Date;
   parentId: string | null;
-  currentUserId?: string;
+  currentUserId: string;
   isComment?: boolean;
 }
 
@@ -36,21 +37,32 @@ const BubbleCard = ({
   currentUserId,
 }: BubbleCardProps) => {
   return (
-    <div className=' rounded-lg bg-dark-4'>
-      <h2 className='flex items-center gap-2'>
-        <Image
-          className='rounded-full'
-          src={author.image}
-          width={50}
-          height={50}
-          alt={`avatar for ${author.name}`}
-        />
-        <span className='text-light-1'>
-          created by: {author.name}
-        </span>{" "}
+    <article className='flex flex-col w-full p-7 rounded-xl bg-dark-4'>
+      <div className='flex items-start justify-between'>
+        <div className='flex w-full flex-1 flex-row gap-4'>
+          <div className='flex flex-col items-center'>
+            <Link
+              className='relative h-11 w-11'
+              href={`/profile/${author.id}`}
+            >
+              <Image
+                className='cursor-pointer'
+                src={author.image}
+                fill
+                alt={`avatar for ${author.name}`}
+                sizes={"100vh"}
+              />
+            </Link>
+
+            <div className='thread-card_bar' />
+          </div>
+        </div>
+      </div>
+
+      <h2 className='text-small-regular text-light-2'>
+        {content}
       </h2>
-      <p className='text-light-1'>{content}</p>
-    </div>
+    </article>
   );
 };
 

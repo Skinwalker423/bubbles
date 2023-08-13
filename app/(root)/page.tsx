@@ -23,7 +23,7 @@ export default async function Home() {
         <BubbleCard
           key={_id}
           id={_id}
-          currentUserId={user?.id}
+          currentUserId={user?.id || ""}
           content={text}
           community={community}
           author={author}
