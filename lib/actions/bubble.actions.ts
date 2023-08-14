@@ -97,3 +97,32 @@ export const fetchBubbles = async (
     );
   }
 };
+
+export const fetchBubbleById = async (id: string) => {
+  try {
+    await connectToMongoDb();
+
+    const bubbles = await Bubble.findOne({
+      _id: id,
+    })
+      .populate({
+        path: "author",
+        model: "User",
+      })
+      .populate({
+        path: "children",
+        populate: {
+          path: "author",
+          model: "User",
+          select: "_id name parentId image",
+        },
+      });
+
+    return bubbles;
+  } catch (error) {
+    throw new Error(
+      "problem fetching bubbles",
+      error as any
+    );
+  }
+};
