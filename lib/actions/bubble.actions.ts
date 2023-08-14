@@ -108,21 +108,34 @@ export const fetchBubbleById = async (id: string) => {
       .populate({
         path: "author",
         model: "User",
+        select: "_id id name image",
       })
       .populate({
         path: "children",
-        populate: {
-          path: "author",
-          model: "User",
-          select: "_id name parentId image",
-        },
-      });
+        populate: [
+          {
+            path: "author",
+            model: "User",
+            select: "_id name parentId image",
+          },
+          {
+            path: "children",
+            model: "Bubble",
+            populate: {
+              path: "author",
+              model: "User",
+              select: "_id name parentId image",
+            },
+          },
+        ],
+      })
+      .exec();
 
     return bubbles;
-  } catch (error) {
+  } catch (error: any) {
     throw new Error(
       "problem fetching bubbles",
-      error as any
+      error.message
     );
   }
 };
