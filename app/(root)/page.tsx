@@ -21,8 +21,8 @@ export default async function Home() {
     }) => {
       return (
         <BubbleCard
-          key={_id}
-          id={_id}
+          key={_id.toString()}
+          id={_id.toString()}
           currentUserId={user?.id || ""}
           content={text}
           community={community}

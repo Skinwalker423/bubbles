@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+// import React, { useState } from "react";
 
 interface BubbleCardProps {
   content: string;
@@ -13,7 +13,7 @@ interface BubbleCardProps {
     author: {
       image: string;
     };
-  };
+  }[];
   id: string;
   community: {
     image: string;
@@ -35,7 +35,9 @@ const BubbleCard = ({
   id,
   community,
   currentUserId,
+  isComment,
 }: BubbleCardProps) => {
+  // const [liked, setLiked] = useState(false);
   return (
     <article className='flex flex-col w-full p-7 rounded-xl bg-dark-4'>
       <div className='flex items-start justify-between'>
@@ -56,12 +58,62 @@ const BubbleCard = ({
 
             <div className='thread-card_bar' />
           </div>
+
+          <div className='flex w-full flex-col'>
+            <Link
+              className='w-fit'
+              href={`/profile/${author.id}`}
+            >
+              <h4 className='cursor-pointer text-base-semibold text-light-1'>
+                {author.name}
+              </h4>
+            </Link>
+            <p className='text-small-regular text-light-2'>
+              {content}
+            </p>
+
+            <div className='mt-5 flex flex-col gap-3'>
+              <div className='flex gap-3 5'>
+                <Image
+                  src={"/assets/heart.svg"}
+                  width={24}
+                  height={24}
+                  alt={"like bubble"}
+                />
+                <Link href={`/bubble/${id}`}>
+                  <Image
+                    src={"/assets/reply.svg"}
+                    width={24}
+                    height={24}
+                    alt={"reply to bubble"}
+                  />
+                </Link>
+                <Image
+                  src={"/assets/repost.svg"}
+                  width={24}
+                  height={24}
+                  alt={"repost bubble"}
+                />
+
+                <Image
+                  src={"/assets/share.svg"}
+                  width={24}
+                  height={24}
+                  alt={"share bubble"}
+                />
+              </div>
+
+              {isComment && comments.length > 0 && (
+                <Link href={`/bubble/${id}`}>
+                  <p className='mt-1 text-subtle-medium text-gray-1'>
+                    {comments.length} replies
+                  </p>
+                </Link>
+              )}
+            </div>
+          </div>
         </div>
       </div>
-
-      <h2 className='text-small-regular text-light-2'>
-        {content}
-      </h2>
     </article>
   );
 };
