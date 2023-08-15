@@ -55,6 +55,7 @@ const Bubble = async ({ params: { id } }: BubbleProps) => {
         <Comment
           bubbleId={_id.toString()}
           currentUserImg={user.imageUrl}
+          currentUserId={userDb._id.toString()}
         />
       </div>
     </section>

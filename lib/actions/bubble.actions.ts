@@ -148,8 +148,10 @@ export const addCommentToBubble = async (
 ) => {
   try {
     await connectToMongoDb();
+    console.log("user id", userId);
     const parentBubble = await Bubble.findById(bubbleId);
     if (!parentBubble) throw new Error("Bubble not found");
+    console.log("parentBubble found", parentBubble);
     const newComment = new Bubble({
       text: commentText,
       community: null,
@@ -157,11 +159,13 @@ export const addCommentToBubble = async (
       author: userId,
       parentId: bubbleId,
     });
+    console.log("newcomment", newComment);
     const savedComment = await newComment.save();
-    parentBubble.children.push(savedComment._id);
-    await parentBubble.save(path);
+    console.log("saved comment", savedComment);
+    await parentBubble.children.push(savedComment._id);
+    await parentBubble.save();
 
-    revalidatePath("");
+    revalidatePath(path);
   } catch (error: any) {
     throw new Error("error adding comment", error.message);
   }

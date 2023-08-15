@@ -24,10 +24,12 @@ const BubbleSchema = new mongoose.Schema({
     default: Date.now(),
   },
   parentId: String,
-  children: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Bubble",
-  },
+  children: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Bubble",
+    },
+  ],
 });
 
 const Bubble =
