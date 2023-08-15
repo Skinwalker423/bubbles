@@ -139,3 +139,28 @@ export const fetchBubbleById = async (id: string) => {
     );
   }
 };
+
+export const addCommentToBubble = async (
+  bubbleId: string,
+  commentText: string,
+  userId: string,
+  path: string
+) => {
+  try {
+    await connectToMongoDb();
+    const parentBubble = await Bubble.findById(bubbleId);
+    if (!parentBubble) throw new Error("Bubble not found");
+    const newComment = new Bubble({
+      text: commentText,
+      community: null,
+      path,
+      author: userId,
+      parentId: parentBubble._id,
+    });
+    await newComment.save();
+    parentBubble.children.push(newComment);
+    await parentBubble.save();
+  } catch (error: any) {
+    throw new Error("error adding comment", error.message);
+  }
+};
