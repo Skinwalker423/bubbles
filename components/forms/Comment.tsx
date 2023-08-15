@@ -16,11 +16,8 @@ import {
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter, usePathname } from "next/navigation";
-import {
-  BubbleValidation,
-  CommentValidation,
-} from "@/lib/validations/bubble";
-import { createBubble } from "@/lib/actions/bubble.actions";
+import { CommentValidation } from "@/lib/validations/bubble";
+import { addCommentToBubble } from "@/lib/actions/bubble.actions";
 import Image from "next/image";
 
 interface CommentProps {
@@ -47,7 +44,7 @@ const Comment = ({
   const onSubmit = async (
     values: z.infer<typeof CommentValidation>
   ) => {
-    console.log(values);
+    console.log("testing", values);
   };
 
   return (

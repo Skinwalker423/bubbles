@@ -157,9 +157,11 @@ export const addCommentToBubble = async (
       author: userId,
       parentId: bubbleId,
     });
-    await newComment.save();
-    parentBubble.children.push(newComment);
-    await parentBubble.save();
+    const savedComment = await newComment.save();
+    parentBubble.children.push(savedComment._id);
+    await parentBubble.save(path);
+
+    revalidatePath("");
   } catch (error: any) {
     throw new Error("error adding comment", error.message);
   }
