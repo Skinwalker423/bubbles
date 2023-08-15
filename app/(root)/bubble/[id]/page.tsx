@@ -5,6 +5,7 @@ import { fetchUser } from "@/lib/actions/user.actions";
 import { currentUser } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 import User from "@/lib/models/user.model";
+import Comment from "@/components/forms/Comment";
 
 interface BubbleProps {
   params: {
@@ -31,6 +32,7 @@ const Bubble = async ({ params: { id } }: BubbleProps) => {
     author,
     createdAt,
     children,
+    parentId,
   } = post;
 
   return (
@@ -38,15 +40,21 @@ const Bubble = async ({ params: { id } }: BubbleProps) => {
       Post
       <div className='relative'>
         <BubbleCard
-          key={_id.toString()}
-          id={_id.toString()}
+          key={_id}
+          id={_id}
           currentUserId={user?.id || ""}
           content={text}
           community={community}
           author={author}
           createdAt={createdAt}
           comments={children}
-          parentId={""}
+          parentId={parentId || ""}
+        />
+      </div>
+      <div className='mt-7'>
+        <Comment
+          bubbleId={_id.toString()}
+          currentUserImg={user.imageUrl}
         />
       </div>
     </section>
