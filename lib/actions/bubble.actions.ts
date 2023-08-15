@@ -155,7 +155,7 @@ export const addCommentToBubble = async (
       community: null,
       path,
       author: userId,
-      parentId: parentBubble._id,
+      parentId: bubbleId,
     });
     await newComment.save();
     parentBubble.children.push(newComment);
