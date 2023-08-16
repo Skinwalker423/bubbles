@@ -3,15 +3,7 @@ import AccountProfile from "@/components/forms/AccountProfile";
 import { currentUser } from "@clerk/nextjs";
 import User from "@/lib/models/user.model";
 import { redirect } from "next/navigation";
-
-export interface UserDataProps {
-  id?: string;
-  username: string;
-  name: string;
-  bio: string;
-  image: string;
-  objectId: string;
-}
+import { UserDataProps } from "@/lib/types";
 
 const Onboarding = async () => {
   const user = await currentUser();

@@ -1,15 +1,11 @@
 "use client";
 
-import React, { FormEvent } from "react";
-import { UserDataProps } from "@/app/(auth)/onboarding/page";
 import { Button } from "../ui/button";
-import { Input } from "../ui/input";
 import * as z from "zod";
 import { Textarea } from "@/components/ui/textarea";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,

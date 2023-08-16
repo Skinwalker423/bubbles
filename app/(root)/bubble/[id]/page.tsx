@@ -6,7 +6,7 @@ import { currentUser } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 import User from "@/lib/models/user.model";
 import Comment from "@/components/forms/Comment";
-import { BubbleCardProps } from "@/components/cards/BubbleCard";
+import { CommentProps } from "@/lib/types";
 
 interface BubbleProps {
   params: {
@@ -39,24 +39,7 @@ const Bubble = async ({ params: { id } }: BubbleProps) => {
   console.log("these are the comments", children);
 
   const commentsList = children.map(
-    (comment: {
-      _id: string;
-      text: string;
-      path: string;
-      author: {
-        id: string;
-        image: string;
-        name: string;
-      };
-      createdAt: Date;
-      parentId: string;
-      children: [];
-      community: {
-        image: string;
-        name: string;
-        id: string;
-      };
-    }) => {
+    (comment: CommentProps) => {
       return (
         <BubbleCard
           key={comment._id}
@@ -98,7 +81,7 @@ const Bubble = async ({ params: { id } }: BubbleProps) => {
           currentUserId={userDb._id.toString()}
         />
       </div>
-      <div className='my-5 px-7'>
+      <div className='mt-10 px-7'>
         {children.length > 0 && commentsList}
       </div>
     </section>

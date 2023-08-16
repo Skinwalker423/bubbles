@@ -1,7 +1,6 @@
 "use client";
 
 import React, { ChangeEvent, useState } from "react";
-import { UserDataProps } from "@/app/(auth)/onboarding/page";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import * as z from "zod";
@@ -26,11 +25,7 @@ import {
 } from "@/lib/uploadthing";
 import { updateUser } from "@/lib/actions/user.actions";
 import { useRouter, usePathname } from "next/navigation";
-
-interface AccountProfileProps {
-  user: UserDataProps;
-  btnTitle: string;
-}
+import { AccountProfileProps } from "@/lib/types";
 
 const AccountProfile = ({
   user,

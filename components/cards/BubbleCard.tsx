@@ -1,30 +1,7 @@
+import { BubbleCardProps } from "@/lib/types";
 import Image from "next/image";
 import Link from "next/link";
 // import React, { useState } from "react";
-
-export interface BubbleCardProps {
-  content: string;
-  author: {
-    name: string;
-    image: string;
-    id: string;
-  };
-  comments: {
-    author: {
-      image: string;
-    };
-  }[];
-  id: string;
-  community: {
-    image: string;
-    name: string;
-    id: string;
-  };
-  createdAt: Date;
-  parentId: string | null;
-  currentUserId: string;
-  isComment?: boolean;
-}
 
 const BubbleCard = ({
   content,

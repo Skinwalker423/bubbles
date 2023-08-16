@@ -19,18 +19,13 @@ import { useRouter, usePathname } from "next/navigation";
 import { CommentValidation } from "@/lib/validations/bubble";
 import { addCommentToBubble } from "@/lib/actions/bubble.actions";
 import Image from "next/image";
-
-interface CommentProps {
-  bubbleId: string;
-  currentUserImg: string;
-  currentUserId: string;
-}
+import { CommentFormProps } from "@/lib/types";
 
 const Comment = ({
   bubbleId,
   currentUserImg,
   currentUserId,
-}: CommentProps) => {
+}: CommentFormProps) => {
   const router = useRouter();
   const pathname = usePathname();
 
