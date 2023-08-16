@@ -162,7 +162,7 @@ export const addCommentToBubble = async (
     console.log("newcomment", newComment);
     const savedComment = await newComment.save();
     console.log("saved comment", savedComment);
-    await parentBubble.children.push(savedComment._id);
+    parentBubble.children.push(savedComment._id);
     await parentBubble.save();
 
     revalidatePath(path);

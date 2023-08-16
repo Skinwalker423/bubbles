@@ -39,7 +39,11 @@ const BubbleCard = ({
 }: BubbleCardProps) => {
   // const [liked, setLiked] = useState(false);
   return (
-    <article className='flex flex-col w-full p-7 rounded-xl bg-dark-4'>
+    <article
+      className={`flex flex-col w-full p-7 rounded-xl ${
+        isComment ? "bg-transparent" : "bg-dark-4"
+      } `}
+    >
       <div className='flex items-start justify-between'>
         <div className='flex w-full flex-1 flex-row gap-4'>
           <div className='flex flex-col items-center'>

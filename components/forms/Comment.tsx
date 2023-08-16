@@ -39,6 +39,9 @@ const Comment = ({
     defaultValues: {
       bubble: "",
     },
+    resetOptions: {
+      keepDefaultValues: true,
+    },
   });
 
   const onSubmit = async (
