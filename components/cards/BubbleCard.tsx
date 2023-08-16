@@ -40,8 +40,10 @@ const BubbleCard = ({
   // const [liked, setLiked] = useState(false);
   return (
     <article
-      className={`flex flex-col w-full p-7 rounded-xl ${
-        isComment ? "bg-transparent" : "bg-dark-4"
+      className={`flex flex-col w-full  rounded-xl ${
+        isComment
+          ? "bg-transparent px-0 xs:px-7"
+          : "bg-dark-4 p-7"
       } `}
     >
       <div className='flex items-start justify-between'>
@@ -76,8 +78,12 @@ const BubbleCard = ({
               {content}
             </p>
 
-            <div className='mt-5 flex flex-col gap-3'>
-              <div className='flex gap-3 5'>
+            <div
+              className={`mt-5 flex flex-col gap-3 ${
+                isComment && "pb-7"
+              }`}
+            >
+              <div className='flex gap-3.5'>
                 <Image
                   src={"/assets/heart.svg"}
                   width={24}
@@ -107,7 +113,7 @@ const BubbleCard = ({
                 />
               </div>
 
-              {isComment && comments.length > 0 && (
+              {!isComment && comments.length > 0 && (
                 <Link href={`/bubble/${id}`}>
                   <p className='mt-1 text-subtle-medium text-gray-1'>
                     {comments.length} replies

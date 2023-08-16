@@ -88,6 +88,7 @@ const Bubble = async ({ params: { id } }: BubbleProps) => {
           createdAt={createdAt}
           comments={children}
           parentId={parentId || ""}
+          isComment={false}
         />
       </div>
       <div className='mt-7'>
@@ -97,7 +98,9 @@ const Bubble = async ({ params: { id } }: BubbleProps) => {
           currentUserId={userDb._id.toString()}
         />
       </div>
-      <div>{children.length > 0 && commentsList}</div>
+      <div className='my-5 px-7'>
+        {children.length > 0 && commentsList}
+      </div>
     </section>
   );
 };
