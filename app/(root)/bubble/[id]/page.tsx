@@ -22,6 +22,7 @@ const Bubble = async ({ params: { id } }: BubbleProps) => {
   });
 
   if (!userDb?.onboarded) redirect("/onboarding");
+  console.log("user in db", userDb);
 
   const post = await fetchBubbleById(id);
 
@@ -77,7 +78,7 @@ const Bubble = async ({ params: { id } }: BubbleProps) => {
       <div className='mt-7'>
         <Comment
           bubbleId={_id.toString()}
-          currentUserImg={user.imageUrl}
+          currentUserImg={userDb.image}
           currentUserId={userDb._id.toString()}
         />
       </div>
