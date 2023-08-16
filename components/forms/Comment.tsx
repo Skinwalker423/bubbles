@@ -34,7 +34,7 @@ const Comment = ({
   const router = useRouter();
   const pathname = usePathname();
 
-  const form = useForm({
+  const form = useForm<z.infer<typeof CommentValidation>>({
     resolver: zodResolver(CommentValidation),
     defaultValues: {
       bubble: "",
@@ -54,6 +54,8 @@ const Comment = ({
       currentUserId,
       pathname
     );
+
+    form.reset();
   };
 
   return (
