@@ -4,6 +4,7 @@ import { connectToMongoDb } from "@/lib/mongoose";
 import { currentUser } from "@clerk/nextjs";
 import React from "react";
 import { CommentProps } from "@/lib/types";
+import { redirect } from "next/navigation";
 
 interface ProfileProps {
   params: {
@@ -15,6 +16,11 @@ const Profile = async ({ params }: ProfileProps) => {
   console.log(params.id);
   connectToMongoDb();
   const user = await currentUser();
+  const currentUserProfile = await User.findById(user?.id);
+
+  if (!currentUserProfile.onboarded)
+    redirect("/onboarding");
+
   const userProfile = await User.findOne({
     id: params.id,
   }).populate({
@@ -49,8 +55,6 @@ const Profile = async ({ params }: ProfileProps) => {
       );
     }
   );
-
-  console.log(bubblesList);
 
   return (
     <section>
