@@ -5,6 +5,7 @@ import { currentUser } from "@clerk/nextjs";
 import React from "react";
 import { CommentProps } from "@/lib/types";
 import { redirect } from "next/navigation";
+import ProfileHeader from "@/components/shared/ProfileHeader";
 
 interface ProfileProps {
   params: {
@@ -16,10 +17,8 @@ const Profile = async ({ params }: ProfileProps) => {
   console.log(params.id);
   connectToMongoDb();
   const user = await currentUser();
-  const currentUserProfile = await User.findById(user?.id);
-
-  if (!currentUserProfile.onboarded)
-    redirect("/onboarding");
+  if (!user) return null;
+  // const currentUserProfile = await User.findById(user?.id);
 
   const userProfile = await User.findOne({
     id: params.id,
@@ -35,6 +34,8 @@ const Profile = async ({ params }: ProfileProps) => {
   if (!userProfile) {
     throw new Error("no user found");
   }
+
+  if (!userProfile.onboarded) redirect("/onboarding");
 
   console.log(userProfile.bubbles);
   const bubblesList = userProfile.bubbles.map(
@@ -58,10 +59,15 @@ const Profile = async ({ params }: ProfileProps) => {
 
   return (
     <section>
-      <h1 className='text-light-1'>
-        Profile for {userProfile.username}
-      </h1>
-      <p className='text-light-1'>{userProfile.bio}</p>
+      <ProfileHeader
+        accountId={userProfile.id}
+        authUserId={user.id}
+        bio={userProfile.bio}
+        imgUrl={userProfile.image}
+        name={userProfile.name}
+        username={userProfile.username}
+      />
+
       <div className='flex flex-col gap-5'>
         {userProfile.bubbles.length > 0 && bubblesList}
       </div>
