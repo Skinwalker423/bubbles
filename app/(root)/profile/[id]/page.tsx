@@ -6,6 +6,12 @@ import React from "react";
 import { CommentProps } from "@/lib/types";
 import { redirect } from "next/navigation";
 import ProfileHeader from "@/components/shared/ProfileHeader";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/components/ui/tabs";
 
 interface ProfileProps {
   params: {
@@ -71,6 +77,26 @@ const Profile = async ({ params }: ProfileProps) => {
       <div className='flex flex-col gap-5'>
         {userProfile.bubbles.length > 0 && bubblesList}
       </div>
+      <Tabs defaultValue='account' className='w-[400px]'>
+        <TabsList>
+          <TabsTrigger value='account'>Tab 1</TabsTrigger>
+          <TabsTrigger value='password'>Tab 2</TabsTrigger>
+        </TabsList>
+        <TabsContent value='account'>
+          <div>
+            <h3 className='text-light-1'>
+              Make changes to your account here.
+            </h3>
+          </div>
+        </TabsContent>
+        <TabsContent value='password'>
+          <div>
+            <h3 className='text-light-1'>
+              second tab info here
+            </h3>
+          </div>
+        </TabsContent>
+      </Tabs>
     </section>
   );
 };
