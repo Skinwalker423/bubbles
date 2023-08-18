@@ -76,7 +76,7 @@ const Profile = async ({ params }: ProfileProps) => {
         username={userProfile.username}
       />
       <div className='mt-9'></div>
-      <Tabs defaultValue='bubbles' className='w-[400px]'>
+      <Tabs defaultValue='bubbles' className='w-full'>
         <TabsList className='tab'>
           {communityTabs.map(({ label, value, icon }) => {
             return (
@@ -89,6 +89,12 @@ const Profile = async ({ params }: ProfileProps) => {
                   className='object-contained'
                 />{" "}
                 <p className='max-sm:hidden'>{label}</p>
+                {label === "Bubbles" &&
+                  bubblesList.length > 0 && (
+                    <p className='ml-1 rounded-full bg-red-400 px-2 py-1 !text-tiny-medium text-light-2'>
+                      {bubblesList.length}
+                    </p>
+                  )}
               </TabsTrigger>
             );
           })}
