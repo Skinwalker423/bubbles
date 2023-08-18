@@ -51,8 +51,8 @@ export const profileTabs = [
 
 export const communityTabs = [
   {
-    value: "threads",
-    label: "Threads",
+    value: "bubbles",
+    label: "Bubbles",
     icon: "/assets/reply.svg",
   },
   {
