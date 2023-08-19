@@ -81,7 +81,6 @@ export const fetchBubbles = async (
           select: "_id name parentId image",
         },
       });
-    console.log(bubbles);
 
     const totalPostCount = await Bubble.countDocuments({
       parentId: {
@@ -152,10 +151,9 @@ export const addCommentToBubble = async (
 ) => {
   try {
     await connectToMongoDb();
-    console.log("user id", userId);
+
     const parentBubble = await Bubble.findById(bubbleId);
     if (!parentBubble) throw new Error("Bubble not found");
-    console.log("parentBubble found", parentBubble);
     const newComment = new Bubble({
       text: commentText,
       community: null,
@@ -163,9 +161,8 @@ export const addCommentToBubble = async (
       author: userId,
       parentId: bubbleId,
     });
-    console.log("newcomment", newComment);
     const savedComment = await newComment.save();
-    console.log("saved comment", savedComment);
+
     parentBubble.children.push(savedComment._id);
     await parentBubble.save();
 

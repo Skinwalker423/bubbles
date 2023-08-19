@@ -23,7 +23,6 @@ interface ProfileProps {
 }
 
 const Profile = async ({ params }: ProfileProps) => {
-  console.log(params.id);
   connectToMongoDb();
   const user = await currentUser();
   if (!user) return null;

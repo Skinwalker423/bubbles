@@ -7,13 +7,12 @@ import { UserDataProps } from "@/lib/types";
 
 const Onboarding = async () => {
   const user = await currentUser();
-
-  const userInDb = await User.find({
+  if (!user) return null;
+  const userInDb = await User.findOne({
     id: user?.id,
   });
-  console.log(userInDb);
 
-  if (userInDb) {
+  if (userInDb?.onboarded) {
     redirect("/");
   }
 

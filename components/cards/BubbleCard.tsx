@@ -15,7 +15,7 @@ const BubbleCard = ({
   isComment,
 }: BubbleCardProps) => {
   // const [liked, setLiked] = useState(false);
-  console.log("author", author);
+
   return (
     <article
       className={`flex flex-col w-full  rounded-xl ${

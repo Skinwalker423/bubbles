@@ -44,8 +44,6 @@ const BubblesTabs = async ({
     }
   );
 
-  console.log("bubbles list", bubblesList);
-
   return (
     <section>
       <h3 className='text-light-1'>Bubbles</h3>

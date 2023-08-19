@@ -42,7 +42,6 @@ const Comment = ({
   const onSubmit = async (
     values: z.infer<typeof CommentValidation>
   ) => {
-    console.log("testing", values);
     const newComment = await addCommentToBubble(
       bubbleId,
       values.bubble,

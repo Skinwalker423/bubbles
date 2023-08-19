@@ -15,7 +15,7 @@ const CreateThread = async () => {
     id: user.id,
   });
 
-  if (!userInfo.onboarded) return redirect("/onboarding");
+  if (!userInfo?.onboarded) return redirect("/onboarding");
 
   return (
     <div>

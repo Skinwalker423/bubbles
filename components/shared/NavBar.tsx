@@ -8,12 +8,15 @@ import {
   OrganizationSwitcher,
 } from "@clerk/nextjs";
 import { dark } from "@clerk/themes";
+import User from "@/lib/models/user.model";
 
-const NavBar = () => {
+const NavBar = async () => {
   const data = auth();
 
   const userId = data.userId;
-  console.log(userId);
+  const userDataDb = await User.findOne({
+    id: userId,
+  });
 
   return (
     <nav className='topbar'>

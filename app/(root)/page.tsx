@@ -6,7 +6,6 @@ import { currentUser } from "@clerk/nextjs";
 export default async function Home() {
   const { posts, isNext } = await fetchBubbles(1, 30);
   const user = await currentUser();
-  console.log(posts);
 
   const bubblesList = posts.map(
     ({

@@ -32,7 +32,6 @@ const AccountProfile = ({
   btnTitle,
 }: AccountProfileProps) => {
   const [files, setFiles] = useState<File[]>([]);
-  console.log(files);
 
   const { startUpload } = useUploadThing("media");
 
@@ -62,7 +61,6 @@ const AccountProfile = ({
     try {
       if (hasImageChanged) {
         const imgRes = await startUpload(files);
-        console.log(imgRes);
 
         if (imgRes && imgRes[0].fileUrl) {
           values.profile_photo = imgRes[0].fileUrl;
@@ -82,8 +80,6 @@ const AccountProfile = ({
       };
 
       const updatedUser = await updateUser(updatedUserData);
-
-      console.log("updated user:", updatedUser);
     } catch (error) {
       console.error(
         "something went wrong updating user",
@@ -107,7 +103,7 @@ const AccountProfile = ({
     if (e.target.files?.length) {
       const file = e.target.files[0];
       if (!file.type.includes("image")) return;
-      console.log(file.type);
+
       setFiles(Array.from(e.target.files));
 
       fileReader.onload = async (e) => {

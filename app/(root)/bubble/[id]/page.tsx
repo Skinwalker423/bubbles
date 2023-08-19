@@ -22,7 +22,6 @@ const Bubble = async ({ params: { id } }: BubbleProps) => {
   });
 
   if (!userDb?.onboarded) redirect("/onboarding");
-  console.log("user in db", userDb);
 
   const post = await fetchBubbleById(id);
 
@@ -36,8 +35,6 @@ const Bubble = async ({ params: { id } }: BubbleProps) => {
     children,
     parentId,
   } = post;
-
-  console.log("these are the comments", children);
 
   const commentsList = children.map(
     (comment: CommentProps) => {
