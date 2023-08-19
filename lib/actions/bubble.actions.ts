@@ -24,7 +24,6 @@ export const createBubble = async (
       text,
       community: null,
       author,
-      path,
     });
 
     const updateUser = await User.findByIdAndUpdate(
@@ -34,6 +33,11 @@ export const createBubble = async (
           bubbles: createdBubble._id,
         },
       }
+    );
+
+    console.log(
+      "updated thread after creating",
+      updateUser
     );
 
     revalidatePath(path);
@@ -190,6 +194,7 @@ export const fetchUserPosts = async (userId: string) => {
         },
       },
     });
+    console.log(posts);
     return posts;
   } catch (err: any) {
     throw new Error(

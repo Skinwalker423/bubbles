@@ -15,6 +15,7 @@ const BubbleCard = ({
   isComment,
 }: BubbleCardProps) => {
   // const [liked, setLiked] = useState(false);
+  console.log("author", author);
   return (
     <article
       className={`flex flex-col w-full  rounded-xl ${
@@ -31,8 +32,8 @@ const BubbleCard = ({
               href={`/profile/${author.id}`}
             >
               <Image
-                className='cursor-pointer'
-                src={author.image}
+                className='cursor-pointer rounded-full'
+                src={author.image || "/assets/user.svg"}
                 fill
                 alt={`avatar for ${author.name}`}
                 sizes={"100vh"}

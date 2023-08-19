@@ -1,4 +1,7 @@
+import { fetchUserPosts } from "@/lib/actions/user.actions";
+import { CommentProps } from "@/lib/types";
 import React from "react";
+import BubbleCard from "../cards/BubbleCard";
 
 interface BubblesTabsProps {
   currentUserId: string;
@@ -6,12 +9,44 @@ interface BubblesTabsProps {
   accountType: string;
 }
 
-const BubblesTabs = ({
+const BubblesTabs = async ({
   currentUserId,
   accountId,
   accountType,
 }: BubblesTabsProps) => {
-  return <div>BubblesTabs</div>;
+  const posts = await fetchUserPosts(accountId);
+  console.log("posts", posts);
+
+  const bubblesList = posts.bubbles.map(
+    (bubble: CommentProps) => {
+      console.log("author within bubbles", bubble.author);
+      return (
+        <BubbleCard
+          key={bubble._id}
+          id={bubble._id}
+          currentUserId={currentUserId || ""}
+          content={bubble.text}
+          community={bubble.community}
+          author={bubble.author}
+          createdAt={bubble.createdAt}
+          comments={bubble.children}
+          parentId={bubble.parentId || ""}
+          isComment={false}
+        />
+      );
+    }
+  );
+
+  console.log("bubbles list", bubblesList);
+
+  return (
+    <section>
+      <h3 className='text-light-1'>Bubbles</h3>
+      <div className='flex flex-col gap-5'>
+        {bubblesList}
+      </div>
+    </section>
+  );
 };
 
 export default BubblesTabs;

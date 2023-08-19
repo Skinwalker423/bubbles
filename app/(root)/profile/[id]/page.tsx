@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/tabs";
 import { communityTabs } from "@/constants";
 import Image from "next/image";
+import BubblesTabs from "@/components/shared/BubblesTabs";
 
 interface ProfileProps {
   params: {
@@ -100,14 +101,23 @@ const Profile = async ({ params }: ProfileProps) => {
           })}
         </TabsList>
         <TabsContent value='bubbles'>
-          <div className='flex flex-col gap-5'>
-            {userProfile.bubbles.length > 0 && bubblesList}
-          </div>
+          <BubblesTabs
+            currentUserId={user.id}
+            accountId={userProfile.id}
+            accountType='User'
+          />
         </TabsContent>
-        <TabsContent value='password'>
+        <TabsContent value='members'>
           <div>
             <h3 className='text-light-1'>
               second tab info here
+            </h3>
+          </div>
+        </TabsContent>
+        <TabsContent value='requests'>
+          <div>
+            <h3 className='text-light-1'>
+              third tab info here
             </h3>
           </div>
         </TabsContent>

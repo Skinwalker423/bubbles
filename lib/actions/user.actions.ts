@@ -3,6 +3,7 @@
 import { connectToMongoDb } from "../mongoose";
 import User from "../models/user.model";
 import { revalidatePath } from "next/cache";
+import Bubble from "../models/bubble.model";
 
 interface UpdatedUserDataProps {
   userId: string;
@@ -56,5 +57,41 @@ export const fetchUser = async (id: string) => {
     });
   } catch (error) {
     throw new Error("problem fetching user", error as any);
+  }
+};
+
+export const fetchUserPosts = async (userId: string) => {
+  try {
+    await connectToMongoDb();
+    //TODO: POPULATE COMMUNITY
+    const posts = await User.findOne({
+      id: userId,
+    }).populate({
+      path: "bubbles",
+      model: Bubble,
+      populate: [
+        {
+          path: "children",
+          model: Bubble,
+          populate: {
+            path: "author",
+            model: User,
+            // select: "name image id",
+          },
+        },
+        {
+          path: "author",
+          model: User,
+          select: "name image id",
+        },
+      ],
+    });
+    console.log(posts);
+    return posts;
+  } catch (err: any) {
+    throw new Error(
+      "problem fetching user posts",
+      err.message
+    );
   }
 };
