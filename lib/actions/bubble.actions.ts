@@ -24,6 +24,7 @@ export const createBubble = async (
       text,
       community: null,
       author,
+      path,
     });
 
     const updateUser = await User.findByIdAndUpdate(
