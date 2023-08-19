@@ -46,7 +46,6 @@ const Profile = async ({ params }: ProfileProps) => {
 
   if (!userProfile.onboarded) redirect("/onboarding");
 
-  console.log(userProfile.bubbles);
   const bubblesList = userProfile.bubbles.map(
     (bubble: CommentProps) => {
       return (

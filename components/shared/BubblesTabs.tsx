@@ -15,11 +15,18 @@ const BubblesTabs = async ({
   accountType,
 }: BubblesTabsProps) => {
   const posts = await fetchUserPosts(accountId);
-  console.log("posts", posts);
 
   const bubblesList = posts.bubbles.map(
     (bubble: CommentProps) => {
-      console.log("author within bubbles", bubble.author);
+      const checkAuthor =
+        accountType === "User"
+          ? {
+              name: posts.name,
+              image: posts.image,
+              id: posts.id,
+            }
+          : bubble.author;
+
       return (
         <BubbleCard
           key={bubble._id}
@@ -27,7 +34,7 @@ const BubblesTabs = async ({
           currentUserId={currentUserId || ""}
           content={bubble.text}
           community={bubble.community}
-          author={bubble.author}
+          author={checkAuthor}
           createdAt={bubble.createdAt}
           comments={bubble.children}
           parentId={bubble.parentId || ""}

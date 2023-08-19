@@ -174,32 +174,3 @@ export const addCommentToBubble = async (
     throw new Error("error adding comment", error.message);
   }
 };
-
-export const fetchUserPosts = async (userId: string) => {
-  try {
-    await connectToMongoDb();
-    //TODO: POPULATE COMMUNITY
-    const posts = await User.findOne({
-      id: userId,
-    }).populate({
-      path: "bubbles",
-      model: User,
-      populate: {
-        path: "children",
-        model: Bubble,
-        populate: {
-          path: "author",
-          model: User,
-          select: "name image id",
-        },
-      },
-    });
-    console.log(posts);
-    return posts;
-  } catch (err: any) {
-    throw new Error(
-      "problem fetching user posts",
-      err.message
-    );
-  }
-};

@@ -86,7 +86,7 @@ export const fetchUserPosts = async (userId: string) => {
         },
       ],
     });
-    console.log(posts);
+
     return posts;
   } catch (err: any) {
     throw new Error(
