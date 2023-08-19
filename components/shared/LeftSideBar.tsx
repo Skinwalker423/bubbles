@@ -10,10 +10,12 @@ import {
   SignedIn,
   SignedOut,
 } from "@clerk/nextjs";
+import { useUser } from "@clerk/nextjs";
 
 const LeftSideBar = () => {
   const router = useRouter();
   const path = usePathname();
+  const userData = useUser();
 
   return (
     <section className='custom-scrollbar leftsidebar'>
@@ -28,7 +30,11 @@ const LeftSideBar = () => {
               className={`leftsidebar_link group relative ${
                 isActive && "bg-primary-500"
               }`}
-              href={route}
+              href={
+                route === "/profile"
+                  ? `${route}/${userData?.user?.id || ""}`
+                  : route
+              }
             >
               <Image
                 src={imgURL}
