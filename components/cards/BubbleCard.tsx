@@ -1,6 +1,10 @@
+"use server";
+
 import { BubbleCardProps } from "@/lib/types";
 import Image from "next/image";
 import Link from "next/link";
+import { likeBubble } from "@/lib/actions/user.actions";
+import LikedIcon from "../icons/LikedIcon";
 // import React, { useState } from "react";
 
 const BubbleCard = ({
@@ -13,6 +17,7 @@ const BubbleCard = ({
   community,
   currentUserId,
   isComment,
+  liked,
 }: BubbleCardProps) => {
   // const [liked, setLiked] = useState(false);
 
@@ -58,15 +63,15 @@ const BubbleCard = ({
 
             <div
               className={`mt-5 flex flex-col gap-3 ${
-                isComment && "pb-7"
+                isComment && "mb-10"
               }`}
             >
               <div className='flex gap-3.5'>
-                <Image
-                  src={"/assets/heart.svg"}
-                  width={24}
-                  height={24}
-                  alt={"like bubble"}
+                <LikedIcon
+                  liked={liked}
+                  handleOnClick={likeBubble}
+                  userId={currentUserId}
+                  bubbleId={id}
                 />
                 <Link href={`/bubble/${id}`}>
                   <Image

@@ -95,3 +95,21 @@ export const fetchUserPosts = async (userId: string) => {
     );
   }
 };
+
+export const likeBubble = async (
+  userId: string,
+  bubbleId: string
+) => {
+  try {
+    const user = await User.findOne({
+      id: userId,
+    });
+
+    if (!user) return null;
+
+    await user.likes.push(bubbleId);
+    await user.save();
+  } catch (error) {
+    throw new Error(`problem liking bubble: ${error}`);
+  }
+};

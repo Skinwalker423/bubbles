@@ -2,10 +2,15 @@ import Image from "next/image";
 import { fetchBubbles } from "@/lib/actions/bubble.actions";
 import BubbleCard from "@/components/cards/BubbleCard";
 import { currentUser } from "@clerk/nextjs";
+import User from "@/lib/models/user.model";
 
 export default async function Home() {
   const { posts, isNext } = await fetchBubbles(1, 30);
   const user = await currentUser();
+
+  const userDb = await User.findOne({
+    id: user?.id,
+  });
 
   const bubblesList = posts.map(
     ({
@@ -18,6 +23,10 @@ export default async function Home() {
       createdAt,
       parentId,
     }) => {
+      const isBubbleLiked: boolean = userDb?.likes.includes(
+        _id.toString()
+      );
+
       return (
         <BubbleCard
           key={_id.toString()}
@@ -29,6 +38,7 @@ export default async function Home() {
           comments={children}
           createdAt={createdAt}
           parentId={parentId}
+          liked={isBubbleLiked}
         />
       );
     }

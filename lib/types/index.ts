@@ -45,6 +45,7 @@ export interface BubbleCardProps {
   parentId: string | null;
   currentUserId: string;
   isComment?: boolean;
+  liked: boolean;
 }
 
 export interface AccountProfileProps {

@@ -59,6 +59,7 @@ const Profile = async ({ params }: ProfileProps) => {
           comments={bubble.children}
           parentId={bubble.parentId || ""}
           isComment={false}
+          liked={false}
         />
       );
     }

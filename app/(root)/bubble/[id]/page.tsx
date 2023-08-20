@@ -23,6 +23,8 @@ const Bubble = async ({ params: { id } }: BubbleProps) => {
 
   if (!userDb?.onboarded) redirect("/onboarding");
 
+  console.log("userDb checking likes", userDb);
+
   const post = await fetchBubbleById(id);
 
   if (!post) return null;
@@ -36,20 +38,30 @@ const Bubble = async ({ params: { id } }: BubbleProps) => {
     parentId,
   } = post;
 
+  const isBubbleLiked: boolean = userDb?.likes.includes(
+    _id.toString()
+  );
+
   const commentsList = children.map(
     (comment: CommentProps) => {
+      const isCommentLiked = userDb?.likes.includes(
+        comment._id.toString()
+      );
+      console.log(isCommentLiked);
+
       return (
         <BubbleCard
-          key={comment._id}
-          id={comment._id}
+          key={comment._id.toString()}
+          id={comment._id.toString()}
           currentUserId={user?.id || ""}
           content={comment.text}
           community={comment.community}
           author={comment.author}
           createdAt={comment.createdAt}
           comments={comment.children}
-          parentId={comment.parentId || ""}
+          parentId={comment.parentId.toString() || ""}
           isComment={true}
+          liked={isCommentLiked}
         />
       );
     }
@@ -60,8 +72,8 @@ const Bubble = async ({ params: { id } }: BubbleProps) => {
       Post
       <div className='relative'>
         <BubbleCard
-          key={_id}
-          id={_id}
+          key={_id.toString()}
+          id={_id.toString()}
           currentUserId={user?.id || ""}
           content={text}
           community={community}
@@ -69,7 +81,7 @@ const Bubble = async ({ params: { id } }: BubbleProps) => {
           createdAt={createdAt}
           comments={children}
           parentId={parentId || ""}
-          isComment={false}
+          liked={isBubbleLiked}
         />
       </div>
       <div className='mt-7'>

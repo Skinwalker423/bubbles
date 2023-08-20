@@ -34,6 +34,12 @@ const UserSchema = new mongoose.Schema({
       ref: "Community",
     },
   ],
+  likes: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Bubble",
+    },
+  ],
 });
 
 const User =
