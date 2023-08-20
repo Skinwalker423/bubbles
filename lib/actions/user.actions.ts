@@ -98,7 +98,8 @@ export const fetchUserPosts = async (userId: string) => {
 
 export const likeBubble = async (
   userId: string,
-  bubbleId: string
+  bubbleId: string,
+  path: string
 ) => {
   try {
     const user = await User.findOne({
@@ -109,7 +110,28 @@ export const likeBubble = async (
 
     await user.likes.push(bubbleId);
     await user.save();
+    revalidatePath(path);
   } catch (error) {
     throw new Error(`problem liking bubble: ${error}`);
+  }
+};
+
+export const unLikeBubble = async (
+  userId: string,
+  bubbleId: string,
+  path: string
+) => {
+  try {
+    const user = await User.findOne({
+      id: userId,
+    });
+
+    if (!user) return null;
+
+    await user.likes.pull(bubbleId);
+    await user.save();
+    revalidatePath(path);
+  } catch (error) {
+    throw new Error(`problem unliking bubble: ${error}`);
   }
 };

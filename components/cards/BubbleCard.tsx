@@ -3,7 +3,10 @@
 import { BubbleCardProps } from "@/lib/types";
 import Image from "next/image";
 import Link from "next/link";
-import { likeBubble } from "@/lib/actions/user.actions";
+import {
+  likeBubble,
+  unLikeBubble,
+} from "@/lib/actions/user.actions";
 import LikedIcon from "../icons/LikedIcon";
 // import React, { useState } from "react";
 
@@ -69,9 +72,11 @@ const BubbleCard = ({
               <div className='flex gap-3.5'>
                 <LikedIcon
                   liked={liked}
-                  handleOnClick={likeBubble}
+                  handleOnClick={
+                    liked ? unLikeBubble : likeBubble
+                  }
                   userId={currentUserId}
-                  bubbleId={id}
+                  bubbleId={id.toString()}
                 />
                 <Link href={`/bubble/${id}`}>
                   <Image

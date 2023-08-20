@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import { usePathname } from "next/navigation";
 
 const LikedIcon = ({
   liked,
@@ -12,17 +13,20 @@ const LikedIcon = ({
   liked: boolean;
   userId: string;
   bubbleId: string;
+
   handleOnClick: (
     userId: string,
-    bubbleId: string
+    bubbleId: string,
+    path: string
   ) => Promise<any>;
 }) => {
+  const path = usePathname();
   const [isLiked, setIsLiked] = useState(liked);
   return (
     <button
       type='button'
       onClick={() => {
-        handleOnClick(userId, bubbleId);
+        handleOnClick(userId, bubbleId, path);
         setIsLiked((bool) => !bool);
       }}
     >
