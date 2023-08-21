@@ -72,14 +72,14 @@ export const fetchBubbles = async (
 
       .populate({
         path: "author",
-        model: "User",
+        model: User,
         options: {
           depth: 1,
         },
       })
       .populate({
         path: "children",
-        model: "Bubble",
+        model: Bubble,
         populate: {
           path: "author",
           model: User,

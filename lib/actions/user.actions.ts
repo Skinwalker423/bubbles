@@ -4,6 +4,8 @@ import { connectToMongoDb } from "../mongoose";
 import User from "../models/user.model";
 import { revalidatePath } from "next/cache";
 import Bubble from "../models/bubble.model";
+import Community from "../models/community.model";
+import { SortOrder } from "mongoose";
 
 interface UpdatedUserDataProps {
   userId: string;
@@ -53,7 +55,7 @@ export const fetchUser = async (id: string) => {
       id,
     }).populate({
       path: "communities",
-      model: "Community",
+      model: Community,
     });
   } catch (error) {
     throw new Error("problem fetching user", error as any);
@@ -133,5 +135,43 @@ export const unLikeBubble = async (
     revalidatePath(path);
   } catch (error) {
     throw new Error(`problem unliking bubble: ${error}`);
+  }
+};
+
+export const fetchUsers = async ({
+  userId,
+  searchString = "",
+  pageNumber = 1,
+  pageSize = 20,
+  sortBy = "desc",
+}: {
+  userId: string;
+  searchString?: string;
+  pageNumber: number;
+  pageSize: number;
+  sortBy?: SortOrder;
+}) => {
+  const skip = (pageNumber - 1) * pageSize;
+
+  const regExp = new RegExp(searchString, "i");
+
+  try {
+    await connectToMongoDb();
+    const users = await User.find({})
+      .skip(skip)
+      .limit(pageSize)
+      .sort({ sortBy })
+      .populate({
+        path: "communities",
+        model: Community,
+      })
+      .populate({
+        path: "bubbles",
+        model: Bubble,
+      });
+
+    return users;
+  } catch (error: any) {
+    throw new Error(error);
   }
 };
