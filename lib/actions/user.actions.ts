@@ -5,7 +5,7 @@ import User from "../models/user.model";
 import { revalidatePath } from "next/cache";
 import Bubble from "../models/bubble.model";
 import Community from "../models/community.model";
-import { SortOrder } from "mongoose";
+import { FilterQuery, SortOrder } from "mongoose";
 
 interface UpdatedUserDataProps {
   userId: string;
@@ -147,30 +147,44 @@ export const fetchUsers = async ({
 }: {
   userId: string;
   searchString?: string;
-  pageNumber: number;
-  pageSize: number;
+  pageNumber?: number;
+  pageSize?: number;
   sortBy?: SortOrder;
 }) => {
-  const skip = (pageNumber - 1) * pageSize;
-
-  const regExp = new RegExp(searchString, "i");
-
   try {
     await connectToMongoDb();
-    const users = await User.find({})
+    const skip = (pageNumber - 1) * pageSize;
+
+    const regExp = new RegExp(searchString, "i");
+
+    const query: FilterQuery<typeof User> = {
+      id: { $ne: userId },
+    };
+
+    if (searchString.trim() !== "") {
+      query.$or = [
+        { username: { $regex: regExp } },
+        { name: { $regex: regExp } },
+      ];
+    }
+
+    const sortOptions = {
+      createdAt: sortBy,
+    };
+
+    const users = await User.find(query)
+      .sort(sortOptions)
       .skip(skip)
       .limit(pageSize)
-      .sort({ sortBy })
-      .populate({
-        path: "communities",
-        model: Community,
-      })
-      .populate({
-        path: "bubbles",
-        model: Bubble,
-      });
+      .exec();
 
-    return users;
+    const totalUsersCount = await User.countDocuments(
+      query
+    );
+
+    const isNext = totalUsersCount > skip + users.length;
+
+    return { users, isNext };
   } catch (error: any) {
     throw new Error(error);
   }
