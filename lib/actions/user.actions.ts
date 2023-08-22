@@ -6,6 +6,7 @@ import { revalidatePath } from "next/cache";
 import Bubble from "../models/bubble.model";
 import Community from "../models/community.model";
 import { FilterQuery, SortOrder } from "mongoose";
+import { currentUser } from "@clerk/nextjs";
 
 interface UpdatedUserDataProps {
   userId: string;
@@ -188,4 +189,26 @@ export const fetchUsers = async ({
   } catch (error: any) {
     throw new Error(error);
   }
+};
+
+export const fetchCurrentUserAndUserProfile = async (
+  id?: string
+) => {
+  connectToMongoDb();
+  const user = await currentUser();
+
+  const userId = id || user?.id;
+
+  const userProfile = await User.findOne({
+    id: userId,
+  }).populate({
+    path: "bubbles",
+    model: "Bubble",
+    populate: {
+      path: "author",
+      model: "User",
+    },
+  });
+
+  return { user, userProfile };
 };
