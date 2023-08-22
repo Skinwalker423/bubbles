@@ -1,7 +1,4 @@
 import BubbleCard from "@/components/cards/BubbleCard";
-import User from "@/lib/models/user.model";
-import { connectToMongoDb } from "@/lib/mongoose";
-import { currentUser } from "@clerk/nextjs";
 import React from "react";
 import { CommentProps } from "@/lib/types";
 import { redirect } from "next/navigation";
@@ -15,6 +12,7 @@ import {
 import { communityTabs } from "@/constants";
 import Image from "next/image";
 import BubblesTabs from "@/components/shared/BubblesTabs";
+import { fetchCurrentUserAndUserProfile } from "@/lib/actions/user.actions";
 
 interface ProfileProps {
   params: {
@@ -23,21 +21,10 @@ interface ProfileProps {
 }
 
 const Profile = async ({ params }: ProfileProps) => {
-  connectToMongoDb();
-  const user = await currentUser();
+  const { user, userProfile } =
+    await fetchCurrentUserAndUserProfile(params.id);
   if (!user) return null;
-  // const currentUserProfile = await User.findById(user?.id);
-
-  const userProfile = await User.findOne({
-    id: params.id,
-  }).populate({
-    path: "bubbles",
-    model: "Bubble",
-    populate: {
-      path: "author",
-      model: "User",
-    },
-  });
+  if (!userProfile.onboarded) redirect("/onboarding");
 
   if (!userProfile) {
     throw new Error("no user found");

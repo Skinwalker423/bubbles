@@ -1,20 +1,15 @@
 import UserCard from "@/components/cards/UserCard";
 import {
-  fetchUser,
   fetchUsers,
+  fetchCurrentUserAndUserProfile,
 } from "@/lib/actions/user.actions";
-import { currentUser } from "@clerk/nextjs";
-import User from "@/lib/models/user.model";
-import Image from "next/image";
 import { redirect } from "next/navigation";
 
 const Search = async () => {
-  const user = await currentUser();
+  const { user, userProfile } =
+    await fetchCurrentUserAndUserProfile();
   if (!user) return null;
-
-  const userData = await fetchUser(user.id);
-
-  if (!userData.onboarded) redirect("/onboarding");
+  if (!userProfile.onboarded) redirect("/onboarding");
 
   const result = await fetchUsers({
     userId: user.id,
