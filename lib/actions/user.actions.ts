@@ -191,6 +191,40 @@ export const fetchUsers = async ({
   }
 };
 
+export const getActivity = async (userId: string) => {
+  try {
+    await connectToMongoDb();
+
+    const userBubbles = await Bubble.find({
+      author: userId,
+    });
+    console.log("bubbles", userBubbles);
+
+    let bubbleReplyIds: string[] = [];
+
+    userBubbles.forEach((bubble) => {
+      bubbleReplyIds = [
+        ...bubbleReplyIds,
+        ...bubble.children,
+      ];
+    });
+
+    const replies = await Bubble.find({
+      _id: { $in: bubbleReplyIds },
+      author: { $ne: userId },
+    }).populate({
+      path: "author",
+      model: User,
+      select: "name image _id",
+    });
+
+    console.log("bubble replies", replies);
+    return replies;
+  } catch (error) {
+    throw new Error(`problem getting activity: ${error}`);
+  }
+};
+
 export const fetchCurrentUserAndUserProfile = async (
   id?: string
 ) => {
