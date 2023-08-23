@@ -212,11 +212,16 @@ export const getActivity = async (userId: string) => {
     const replies = await Bubble.find({
       _id: { $in: bubbleReplyIds },
       author: { $ne: userId },
-    }).populate({
-      path: "author",
-      model: User,
-      select: "name image _id",
-    });
+    })
+      .populate({
+        path: "author",
+        model: User,
+        select: "name image _id",
+      })
+      .populate({
+        path: "communities",
+        model: Community,
+      });
 
     console.log("bubble replies", replies);
     return replies;

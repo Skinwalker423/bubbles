@@ -1,11 +1,7 @@
 import React from "react";
 
-const Communities = () => {
-  return (
-    <section>
-      <h1 className='text-light-1'>Communities</h1>;
-    </section>
-  );
+const page = () => {
+  return <div>page</div>;
 };
 
-export default Communities;
+export default page;
