@@ -219,7 +219,7 @@ export const getActivity = async (userId: string) => {
         select: "name image _id",
       })
       .populate({
-        path: "communities",
+        path: "community",
         model: Community,
       });
 
