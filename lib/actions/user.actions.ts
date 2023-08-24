@@ -212,21 +212,19 @@ export const getActivity = async (userId: string) => {
     const replies = await Bubble.find({
       _id: { $in: bubbleReplyIds },
       author: { $ne: userId },
-    })
-      .populate({
-        path: "author",
-        model: User,
-        select: "name image _id",
-      })
-      .populate({
-        path: "community",
-        model: Community,
-      });
+    }).populate({
+      path: "author",
+      model: User,
+      select: "name image _id",
+    });
+
+    if (!replies) return;
 
     console.log("bubble replies", replies);
     return replies;
-  } catch (error) {
-    throw new Error(`problem getting activity: ${error}`);
+  } catch (error: any) {
+    console.error("Error fetching replies: ", error);
+    throw error;
   }
 };
 
