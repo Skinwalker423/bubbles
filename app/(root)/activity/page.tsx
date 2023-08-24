@@ -15,7 +15,7 @@ const Activity = async () => {
   if (!userProfile.onboarded) redirect("/onboarding");
 
   const replies = await getActivity(userProfile?._id);
-  if (!replies)
+  if (!replies.length)
     return (
       <p className='!text-base-regular text-light-3'>
         No Recent Activity
