@@ -4,23 +4,7 @@ import { connectToMongoDb } from "../mongoose";
 import Community from "../models/community.model";
 import User from "../models/user.model";
 import Bubble from "../models/bubble.model";
-import React from "react";
 import { FilterQuery, SortOrder } from "mongoose";
-
-// export async function fetchCommunities() {
-//   await connectToMongoDb();
-
-//   const query = {};
-//   const pageNumber = 1;
-//   const pageSize = 20;
-//   const skip = (pageNumber - 1) * pageSize;
-
-//   const communities = await Community.find(query)
-//     .skip(skip)
-//     .limit(pageSize);
-
-//   return communities;
-// }
 
 export async function createCommunity(
   id: string,
