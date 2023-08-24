@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import User from "./user.model";
+import Bubble from "./bubble.model";
 
 const CommunitySchema = new mongoose.Schema({
   id: {
@@ -9,24 +10,30 @@ const CommunitySchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
-    unique: true,
   },
   username: {
     type: String,
     required: true,
+    unique: true,
   },
-  image: {
-    type: String,
-    required: true,
-  },
-  bio: {
-    type: String,
-    required: true,
-  },
+  image: String,
+  bio: String,
   createdById: {
     type: mongoose.Schema.Types.ObjectId,
     ref: User,
   },
+  bubbles: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: Bubble,
+    },
+  ],
+  members: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: User,
+    },
+  ],
 });
 
 const Community =

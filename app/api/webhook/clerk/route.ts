@@ -134,7 +134,8 @@ export const POST = async (request: Request) => {
     try {
       // Resource: https://clerk.com/docs/reference/backend-api/tag/Organization-Memberships#operation/CreateOrganizationMembership
       // Show what evnt?.data sends from above resource
-      const { organization, public_user_data } = evnt?.data;
+      const { organization, public_user_data }: any =
+        evnt?.data;
       console.log("created", evnt?.data);
 
       // @ts-ignore
@@ -162,7 +163,8 @@ export const POST = async (request: Request) => {
     try {
       // Resource: https://clerk.com/docs/reference/backend-api/tag/Organization-Memberships#operation/DeleteOrganizationMembership
       // Show what evnt?.data sends from above resource
-      const { organization, public_user_data } = evnt?.data;
+      const { organization, public_user_data }: any =
+        evnt?.data;
       console.log("removed", evnt?.data);
 
       // @ts-ignore
