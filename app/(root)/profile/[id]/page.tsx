@@ -34,6 +34,8 @@ const Profile = async ({ params }: ProfileProps) => {
 
   const bubblesList = userProfile.bubbles.map(
     (bubble: CommentProps) => {
+      const isBubbleLiked: boolean =
+        userProfile?.likes.includes(bubble._id.toString());
       return (
         <BubbleCard
           key={bubble._id}
@@ -46,7 +48,7 @@ const Profile = async ({ params }: ProfileProps) => {
           comments={bubble.children}
           parentId={bubble.parentId || ""}
           isComment={false}
-          liked={false}
+          liked={isBubbleLiked}
         />
       );
     }

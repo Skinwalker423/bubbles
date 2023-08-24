@@ -18,6 +18,9 @@ const BubblesTabs = async ({
 
   const bubblesList = posts.bubbles.map(
     (bubble: CommentProps) => {
+      const isBubbleLiked: boolean = posts?.likes.includes(
+        bubble._id.toString()
+      );
       const checkAuthor =
         accountType === "User"
           ? {
@@ -39,6 +42,7 @@ const BubblesTabs = async ({
           comments={bubble.children}
           parentId={bubble.parentId || ""}
           isComment={false}
+          liked={isBubbleLiked}
         />
       );
     }
