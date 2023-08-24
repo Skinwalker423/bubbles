@@ -11,13 +11,17 @@ const Activity = async () => {
   const { user, userProfile } =
     await fetchCurrentUserAndUserProfile();
   if (!user) return null;
+  if (!userProfile) return null;
   if (!userProfile.onboarded) redirect("/onboarding");
 
-  const replies = await getActivity(userProfile._id);
-
+  const replies = await getActivity(userProfile?._id);
+  if (!replies)
+    return (
+      <p className='!text-base-regular text-light-3'>
+        No Recent Activity
+      </p>
+    );
   const activityList = replies.map((comment) => {
-    const isBubbleLiked: boolean =
-      userProfile?.likes.includes(comment._id.toString());
     return (
       <Link href={`/bubble/${comment.parentId}`}>
         <article className='activity-card'>
