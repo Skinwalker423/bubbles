@@ -48,7 +48,7 @@ const PostBubble = ({ userId }: PostBubbleProps) => {
       author: values.accountId,
       path: pathname,
       text: values.bubble,
-      communityId: null,
+      communityId: organization ? organization.id : null,
     };
     await createBubble(bubbleData);
 

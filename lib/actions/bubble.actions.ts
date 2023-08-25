@@ -5,6 +5,7 @@ import Bubble from "../models/bubble.model";
 import User from "../models/user.model";
 import { revalidatePath } from "next/cache";
 import { BubbleProps } from "../types";
+import Community from "../models/community.model";
 
 export const createBubble = async (
   bubbleData: BubbleProps
@@ -16,7 +17,7 @@ export const createBubble = async (
 
     const createdBubble = await Bubble.create({
       text,
-      community: null,
+      community: communityId,
       author,
       path,
     });
@@ -79,6 +80,10 @@ export const fetchBubbles = async (
           model: User,
           select: "_id name parentId image",
         },
+      })
+      .populate({
+        path: "community",
+        model: Community,
       });
 
     const totalPostCount = await Bubble.countDocuments({

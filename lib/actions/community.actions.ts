@@ -30,7 +30,7 @@ export async function createCommunity(
       username,
       image,
       bio,
-      createdBy: user._id, // Use the mongoose ID of the user
+      createdById: user._id, // Use the mongoose ID of the user
     });
 
     const createdCommunity = await newCommunity.save();
@@ -54,7 +54,7 @@ export async function fetchCommunityDetails(id: string) {
     const communityDetails = await Community.findOne({
       id,
     }).populate([
-      "createdBy",
+      "createdById",
       {
         path: "members",
         model: User,

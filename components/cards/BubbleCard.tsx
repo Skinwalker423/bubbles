@@ -8,6 +8,7 @@ import {
   unLikeBubble,
 } from "@/lib/actions/user.actions";
 import LikedIcon from "../icons/LikedIcon";
+import { formatDateString } from "@/lib/utils";
 // import React, { useState } from "react";
 
 const BubbleCard = ({
@@ -23,6 +24,7 @@ const BubbleCard = ({
   liked,
 }: BubbleCardProps) => {
   console.log("liked", liked);
+  console.log("community", community);
 
   return (
     <article
@@ -111,6 +113,27 @@ const BubbleCard = ({
             </div>
           </div>
         </div>
+
+        {/* delete thread */}
+        {/* show comment logo */}
+        {!isComment && community && (
+          <Link
+            href={`/communities/${community.id}`}
+            className='mt-5 flex items-center'
+          >
+            <p className='text-subtle-medium text-gray-1'>
+              {formatDateString(createdAt.toString())} -{" "}
+              {community.name} Community
+            </p>
+            <Image
+              src={community.image}
+              alt='comminity image'
+              width={14}
+              height={14}
+              className='ml-1 rounded-full object-cover'
+            />
+          </Link>
+        )}
       </div>
     </article>
   );

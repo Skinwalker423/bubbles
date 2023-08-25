@@ -1,6 +1,6 @@
 export interface BubbleProps {
   text: string;
-  communityId: string | undefined;
+  communityId: string | null;
   author: string;
   path: string;
 }

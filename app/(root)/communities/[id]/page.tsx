@@ -31,27 +31,17 @@ const Communities = async ({
     params.id
   );
 
-  console.log(communityDetails);
-
-  const communitiesList = userProfile.communities.map(
-    (community: any) => {
-      return (
-        <div>
-          <h3>{community._id.toString()}</h3>
-        </div>
-      );
-    }
-  );
+  console.log("community details", communityDetails);
 
   return (
     <section>
       <ProfileHeader
-        accountId={userProfile.id}
+        accountId={communityDetails.id}
         authUserId={user.id}
-        bio={userProfile.bio}
-        imgUrl={userProfile.image}
-        name={userProfile.name}
-        username={userProfile.username}
+        bio={communityDetails.bio}
+        imgUrl={communityDetails.image}
+        name={communityDetails.name}
+        username={communityDetails.username}
       />
       <div className='mt-9'></div>
       <Tabs defaultValue='bubbles' className='w-full'>
@@ -67,22 +57,14 @@ const Communities = async ({
                   className='object-contained'
                 />{" "}
                 <p className='max-sm:hidden'>{label}</p>
-                {label === "Bubbles" &&
-                  communitiesList.length > 0 && (
-                    <p className='ml-1 rounded-full bg-red-400 px-2 py-1 !text-tiny-medium text-light-2'>
-                      {communitiesList.length}
-                    </p>
-                  )}
               </TabsTrigger>
             );
           })}
         </TabsList>
         <TabsContent value='bubbles'>
-          <BubblesTabs
-            currentUserId={user.id}
-            accountId={userProfile.id}
-            accountType='User'
-          />
+          <p className='text-light-1'>
+            {communityDetails.name}
+          </p>
         </TabsContent>
         <TabsContent value='members'>
           <div>
