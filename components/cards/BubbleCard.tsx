@@ -22,7 +22,7 @@ const BubbleCard = ({
   isComment,
   liked,
 }: BubbleCardProps) => {
-  // const [liked, setLiked] = useState(false);
+  console.log("liked", liked);
 
   return (
     <article

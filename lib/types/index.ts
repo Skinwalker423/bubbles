@@ -1,3 +1,10 @@
+export interface BubbleProps {
+  text: string;
+  communityId: string | undefined;
+  author: string;
+  path: string;
+}
+
 export interface CommentProps {
   _id: string;
   text: string;

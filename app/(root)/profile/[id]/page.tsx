@@ -1,6 +1,4 @@
-import BubbleCard from "@/components/cards/BubbleCard";
 import React from "react";
-import { CommentProps } from "@/lib/types";
 import { redirect } from "next/navigation";
 import ProfileHeader from "@/components/shared/ProfileHeader";
 import {
@@ -21,48 +19,24 @@ interface ProfileProps {
 }
 
 const Profile = async ({ params }: ProfileProps) => {
-  const { user, userProfile } =
+  const { user, userProfile, profile } =
     await fetchCurrentUserAndUserProfile(params.id);
   if (!user) return null;
   if (!userProfile.onboarded) redirect("/onboarding");
 
-  if (!userProfile) {
+  if (!profile) {
     throw new Error("no user found");
   }
-
-  if (!userProfile.onboarded) redirect("/onboarding");
-
-  const bubblesList = userProfile.bubbles.map(
-    (bubble: CommentProps) => {
-      const isBubbleLiked: boolean =
-        userProfile?.likes.includes(bubble._id.toString());
-      return (
-        <BubbleCard
-          key={bubble._id}
-          id={bubble._id}
-          currentUserId={user?.id || ""}
-          content={bubble.text}
-          community={bubble.community}
-          author={bubble.author}
-          createdAt={bubble.createdAt}
-          comments={bubble.children}
-          parentId={bubble.parentId || ""}
-          isComment={false}
-          liked={isBubbleLiked}
-        />
-      );
-    }
-  );
 
   return (
     <section>
       <ProfileHeader
-        accountId={userProfile.id}
+        accountId={profile.id}
         authUserId={user.id}
-        bio={userProfile.bio}
-        imgUrl={userProfile.image}
-        name={userProfile.name}
-        username={userProfile.username}
+        bio={profile.bio}
+        imgUrl={profile.image}
+        name={profile.name}
+        username={profile.username}
       />
       <div className='mt-9'></div>
       <Tabs defaultValue='bubbles' className='w-full'>
@@ -79,9 +53,9 @@ const Profile = async ({ params }: ProfileProps) => {
                 />{" "}
                 <p className='max-sm:hidden'>{label}</p>
                 {label === "Bubbles" &&
-                  bubblesList.length > 0 && (
+                  profile.bubbles.length > 0 && (
                     <p className='ml-1 rounded-full bg-red-400 px-2 py-1 !text-tiny-medium text-light-2'>
-                      {bubblesList.length}
+                      {profile.bubbles.length}
                     </p>
                   )}
               </TabsTrigger>
@@ -91,7 +65,7 @@ const Profile = async ({ params }: ProfileProps) => {
         <TabsContent value='bubbles'>
           <BubblesTabs
             currentUserId={user.id}
-            accountId={userProfile.id}
+            accountId={profile.id}
             accountType='User'
           />
         </TabsContent>

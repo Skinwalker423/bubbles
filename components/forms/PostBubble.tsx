@@ -16,6 +16,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter, usePathname } from "next/navigation";
 import { BubbleValidation } from "@/lib/validations/bubble";
 import { createBubble } from "@/lib/actions/bubble.actions";
+import { useOrganization } from "@clerk/nextjs";
+
 interface PostBubbleProps {
   userId: string;
 }
@@ -23,6 +25,13 @@ interface PostBubbleProps {
 const PostBubble = ({ userId }: PostBubbleProps) => {
   const router = useRouter();
   const pathname = usePathname();
+  const {
+    invitationList,
+    isLoaded,
+    membership,
+    membershipList,
+    organization,
+  } = useOrganization();
 
   const form = useForm({
     resolver: zodResolver(BubbleValidation),

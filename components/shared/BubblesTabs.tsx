@@ -2,6 +2,7 @@ import { fetchUserPosts } from "@/lib/actions/user.actions";
 import { CommentProps } from "@/lib/types";
 import React from "react";
 import BubbleCard from "../cards/BubbleCard";
+import { fetchCurrentUserAndUserProfile } from "@/lib/actions/user.actions";
 
 interface BubblesTabsProps {
   currentUserId: string;
@@ -14,13 +15,14 @@ const BubblesTabs = async ({
   accountId,
   accountType,
 }: BubblesTabsProps) => {
+  const { userProfile } =
+    await fetchCurrentUserAndUserProfile();
   const posts = await fetchUserPosts(accountId);
 
   const bubblesList = posts.bubbles.map(
     (bubble: CommentProps) => {
-      const isBubbleLiked: boolean = posts?.likes.includes(
-        bubble._id.toString()
-      );
+      const isBubbleLiked: boolean =
+        userProfile?.likes.includes(bubble._id.toString());
       const checkAuthor =
         accountType === "User"
           ? {

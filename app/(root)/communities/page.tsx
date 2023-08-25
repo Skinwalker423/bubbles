@@ -3,12 +3,15 @@ import Image from "next/image";
 import React from "react";
 import { fetchCurrentUserAndUserProfile } from "@/lib/actions/user.actions";
 import { redirect } from "next/navigation";
+import { fetchCommunities } from "@/lib/actions/community.actions";
 
 const Page = async () => {
   const { user, userProfile } =
     await fetchCurrentUserAndUserProfile();
   if (!user) return null;
   if (!userProfile.onboarded) redirect("/onboarding");
+
+  // const communities = await fetchCommunities();
 
   const communitiesList = userProfile.communities.map(
     (community: any) => {

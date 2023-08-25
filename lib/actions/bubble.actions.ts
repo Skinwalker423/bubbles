@@ -4,13 +4,7 @@ import { connectToMongoDb } from "../mongoose";
 import Bubble from "../models/bubble.model";
 import User from "../models/user.model";
 import { revalidatePath } from "next/cache";
-
-interface BubbleProps {
-  text: string;
-  communityId: string | null;
-  author: string;
-  path: string;
-}
+import { BubbleProps } from "../types";
 
 export const createBubble = async (
   bubbleData: BubbleProps

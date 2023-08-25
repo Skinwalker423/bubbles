@@ -25,6 +25,7 @@ const Activity = async () => {
     return (
       <Link href={`/bubble/${comment.parentId}`}>
         <article className='activity-card'>
+          Test
           <Image
             src={comment.author.image}
             alt={`profile image of ${comment.author.name}`}

@@ -11,6 +11,7 @@ import React from "react";
 import { fetchCurrentUserAndUserProfile } from "@/lib/actions/user.actions";
 import { redirect } from "next/navigation";
 import { communityTabs } from "@/constants";
+import { fetchCommunityDetails } from "@/lib/actions/community.actions";
 
 interface CommunitiesProps {
   params: {
@@ -25,6 +26,12 @@ const Communities = async ({
     await fetchCurrentUserAndUserProfile();
   if (!user) return null;
   if (!userProfile.onboarded) redirect("/onboarding");
+
+  const communityDetails = await fetchCommunityDetails(
+    params.id
+  );
+
+  console.log(communityDetails);
 
   const communitiesList = userProfile.communities.map(
     (community: any) => {

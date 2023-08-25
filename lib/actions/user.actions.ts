@@ -234,10 +234,8 @@ export const fetchCurrentUserAndUserProfile = async (
   connectToMongoDb();
   const user = await currentUser();
 
-  const userId = id || user?.id;
-
   const userProfile = await User.findOne({
-    id: userId,
+    id: user?.id,
   }).populate({
     path: "bubbles",
     model: "Bubble",
@@ -247,5 +245,16 @@ export const fetchCurrentUserAndUserProfile = async (
     },
   });
 
-  return { user, userProfile };
+  const profile = await User.findOne({
+    id: id,
+  }).populate({
+    path: "bubbles",
+    model: "Bubble",
+    populate: {
+      path: "author",
+      model: "User",
+    },
+  });
+
+  return { user, userProfile, profile };
 };
