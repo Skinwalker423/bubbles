@@ -31,8 +31,6 @@ const Communities = async ({
     params.id
   );
 
-  console.log("community details", communityDetails);
-
   return (
     <section>
       <ProfileHeader

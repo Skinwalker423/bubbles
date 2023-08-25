@@ -23,7 +23,6 @@ export default async function Home() {
       createdAt,
       parentId,
     }) => {
-      console.log("community on home page", community);
       const isBubbleLiked: boolean = userDb?.likes.includes(
         _id.toString()
       );

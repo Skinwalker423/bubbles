@@ -17,7 +17,6 @@ const Search = async () => {
     pageNumber: 1,
     pageSize: 25,
   });
-  console.log("all users", result);
 
   return (
     <section>

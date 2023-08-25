@@ -33,8 +33,6 @@ const PostBubble = ({ userId }: PostBubbleProps) => {
     organization,
   } = useOrganization();
 
-  console.log("org id in postBubble", organization);
-
   const form = useForm({
     resolver: zodResolver(BubbleValidation),
     defaultValues: {

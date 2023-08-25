@@ -23,9 +23,6 @@ const BubbleCard = ({
   isComment,
   liked,
 }: BubbleCardProps) => {
-  console.log("liked", liked);
-  console.log("community", community);
-
   return (
     <article
       className={`flex flex-col w-full  rounded-xl ${

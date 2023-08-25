@@ -23,8 +23,6 @@ const Bubble = async ({ params: { id } }: BubbleProps) => {
 
   if (!userDb?.onboarded) redirect("/onboarding");
 
-  console.log("userDb checking likes", userDb);
-
   const post = await fetchBubbleById(id);
 
   if (!post) return null;
@@ -47,7 +45,6 @@ const Bubble = async ({ params: { id } }: BubbleProps) => {
       const isCommentLiked = userDb?.likes.includes(
         comment._id.toString()
       );
-      console.log(isCommentLiked);
 
       return (
         <BubbleCard
