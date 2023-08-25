@@ -12,12 +12,18 @@ export const createBubble = async (
 ) => {
   const { author, communityId, path, text } = bubbleData;
 
+  console.log("communityId in create bubble", communityId);
+
   try {
     await connectToMongoDb();
 
+    const communityData = await Community.findOne({
+      id: communityId,
+    });
+
     const createdBubble = await Bubble.create({
       text,
-      community: communityId,
+      community: communityData._id || null,
       author,
       path,
     });
@@ -30,6 +36,11 @@ export const createBubble = async (
         },
       }
     );
+
+    if (communityData) {
+      await communityData.bubbles.push(createdBubble._id);
+      await communityData.save();
+    }
 
     console.log(
       "updated thread after creating",
