@@ -53,14 +53,19 @@ export async function fetchCommunityDetails(id: string) {
 
     const communityDetails = await Community.findOne({
       id,
-    }).populate([
-      "createdById",
-      {
-        path: "members",
-        model: User,
-        select: "name username image _id id",
-      },
-    ]);
+    })
+      .populate([
+        "createdById",
+        {
+          path: "members",
+          model: User,
+          select: "name username image _id id",
+        },
+      ])
+      .populate({
+        path: "bubbles",
+        model: Bubble,
+      });
 
     return communityDetails;
   } catch (error) {

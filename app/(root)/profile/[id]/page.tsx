@@ -69,14 +69,14 @@ const Profile = async ({ params }: ProfileProps) => {
             accountType='User'
           />
         </TabsContent>
-        <TabsContent value='members'>
+        <TabsContent value='replies'>
           <div>
             <h3 className='text-light-1'>
               second tab info here
             </h3>
           </div>
         </TabsContent>
-        <TabsContent value='requests'>
+        <TabsContent value='tagged'>
           <div>
             <h3 className='text-light-1'>
               third tab info here

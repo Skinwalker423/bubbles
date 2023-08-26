@@ -31,6 +31,9 @@ const Communities = async ({
     params.id
   );
 
+  const communityPosts = communityDetails.bubbles;
+  console.log("posts", communityPosts);
+
   return (
     <section>
       <ProfileHeader
@@ -40,6 +43,7 @@ const Communities = async ({
         imgUrl={communityDetails.image}
         name={communityDetails.name}
         username={communityDetails.username}
+        type='Community'
       />
       <div className='mt-9'></div>
       <Tabs defaultValue='bubbles' className='w-full'>
@@ -55,6 +59,12 @@ const Communities = async ({
                   className='object-contained'
                 />{" "}
                 <p className='max-sm:hidden'>{label}</p>
+                {label === "Bubbles" &&
+                  communityDetails.bubbles.length > 0 && (
+                    <p className='ml-1 rounded-full bg-red-400 px-2 py-1 !text-tiny-medium text-light-2'>
+                      {communityDetails.bubbles.length}
+                    </p>
+                  )}
               </TabsTrigger>
             );
           })}
