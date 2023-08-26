@@ -33,8 +33,8 @@ export const sidebarLinks = [
 
 export const profileTabs = [
   {
-    value: "threads",
-    label: "Threads",
+    value: "bubbles",
+    label: "Bubbles",
     icon: "/assets/reply.svg",
   },
   {

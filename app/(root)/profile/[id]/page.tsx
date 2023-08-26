@@ -7,7 +7,7 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs";
-import { communityTabs } from "@/constants";
+import { communityTabs, profileTabs } from "@/constants";
 import Image from "next/image";
 import BubblesTabs from "@/components/shared/BubblesTabs";
 import { fetchCurrentUserAndUserProfile } from "@/lib/actions/user.actions";
@@ -41,7 +41,7 @@ const Profile = async ({ params }: ProfileProps) => {
       <div className='mt-9'></div>
       <Tabs defaultValue='bubbles' className='w-full'>
         <TabsList className='tab'>
-          {communityTabs.map(({ label, value, icon }) => {
+          {profileTabs.map(({ label, value, icon }) => {
             return (
               <TabsTrigger key={value} value={value}>
                 <Image
