@@ -68,3 +68,14 @@ export interface UserDataProps {
   image: string;
   objectId: string;
 }
+
+export interface CommunityCardProps {
+  id: string;
+  name: string;
+  username: string;
+  imgUrl: string;
+  bio: string;
+  members: {
+    image: string;
+  }[];
+}
