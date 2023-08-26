@@ -37,7 +37,11 @@ const UserCard = ({
           </p>
         </div>
       </div>
-      <Link href={`/profile/${id}`}>
+      <Link
+        href={`/${
+          personType === "User" ? "profile" : "communities"
+        }/${id}`}
+      >
         <Button className='user-card_btn'>
           View Profile
         </Button>
