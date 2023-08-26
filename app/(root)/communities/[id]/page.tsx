@@ -12,6 +12,7 @@ import { fetchCurrentUserAndUserProfile } from "@/lib/actions/user.actions";
 import { redirect } from "next/navigation";
 import { communityTabs } from "@/constants";
 import { fetchCommunityDetails } from "@/lib/actions/community.actions";
+import UserCard from "@/components/cards/UserCard";
 
 interface CommunitiesProps {
   params: {
@@ -70,16 +71,29 @@ const Communities = async ({
           })}
         </TabsList>
         <TabsContent value='bubbles'>
-          <p className='text-light-1'>
-            {communityDetails.name}
-          </p>
+          <BubblesTabs
+            accountId={communityDetails._id}
+            accountType='Community'
+            currentUserId={user.id}
+          />
         </TabsContent>
         <TabsContent value='members'>
-          <div>
-            <h3 className='text-light-1'>
-              second tab info here
-            </h3>
-          </div>
+          <section className='mt-9 flex flex-col gap-10'>
+            {communityDetails?.members.map(
+              (member: any) => {
+                return (
+                  <UserCard
+                    key={member.id}
+                    id={member.id}
+                    imgUrl={member.image}
+                    name={member.name}
+                    personType='User'
+                    username={member.username}
+                  />
+                );
+              }
+            )}
+          </section>
         </TabsContent>
         <TabsContent value='requests'>
           <div>

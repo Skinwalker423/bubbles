@@ -3,6 +3,7 @@ import { CommentProps } from "@/lib/types";
 import React from "react";
 import BubbleCard from "../cards/BubbleCard";
 import { fetchCurrentUserAndUserProfile } from "@/lib/actions/user.actions";
+import { fetchCommunityPosts } from "@/lib/actions/community.actions";
 
 interface BubblesTabsProps {
   currentUserId: string;
@@ -17,7 +18,10 @@ const BubblesTabs = async ({
 }: BubblesTabsProps) => {
   const { userProfile } =
     await fetchCurrentUserAndUserProfile();
-  const posts = await fetchUserPosts(accountId);
+  const posts =
+    accountType === "User"
+      ? await fetchUserPosts(accountId)
+      : await fetchCommunityPosts(accountId);
 
   const bubblesList = posts.bubbles.map(
     (bubble: CommentProps) => {
