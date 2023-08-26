@@ -87,6 +87,10 @@ export const fetchUserPosts = async (userId: string) => {
           model: User,
           select: "name image id",
         },
+        {
+          path: "community",
+          model: Community,
+        },
       ],
     });
 

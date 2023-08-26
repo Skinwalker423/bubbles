@@ -21,6 +21,7 @@ const BubblesTabs = async ({
 
   const bubblesList = posts.bubbles.map(
     (bubble: CommentProps) => {
+      console.log("community in tabs", bubble.community);
       const isBubbleLiked: boolean =
         userProfile?.likes.includes(bubble._id.toString());
       const checkAuthor =
