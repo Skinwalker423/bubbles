@@ -100,14 +100,37 @@ const BubbleCard = ({
                   alt={"share bubble"}
                 />
               </div>
-
-              {!isComment && comments.length > 0 && (
-                <Link href={`/bubble/${id}`}>
-                  <p className='mt-1 text-subtle-medium text-gray-1'>
-                    {comments.length} replies
-                  </p>
-                </Link>
-              )}
+              <div className='flex gap-2'>
+                <div className='flex'>
+                  {!isComment &&
+                    comments.length > 0 &&
+                    comments.map((comment, index) => {
+                      if (index < 2) {
+                        return (
+                          <Image
+                            key={comment.author._id.toString()}
+                            src={comment.author.image}
+                            alt={"author image"}
+                            width={28}
+                            height={28}
+                            className={`${
+                              index !== 0 && "-ml-4"
+                            } rounded-full object-cover`}
+                          />
+                        );
+                      }
+                    })}
+                </div>
+                <div>
+                  {!isComment && comments.length > 0 && (
+                    <Link href={`/bubble/${id}`}>
+                      <p className='mt-1 text-subtle-medium text-gray-1'>
+                        {comments.length} replies
+                      </p>
+                    </Link>
+                  )}
+                </div>
+              </div>
             </div>
           </div>
         </div>

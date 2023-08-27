@@ -40,6 +40,7 @@ export interface BubbleCardProps {
   comments: {
     author: {
       image: string;
+      _id: string;
     };
   }[];
   id: string;
