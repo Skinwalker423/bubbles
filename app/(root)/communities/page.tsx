@@ -5,6 +5,7 @@ import {
 } from "@/lib/actions/user.actions";
 import { redirect } from "next/navigation";
 import { fetchCommunities } from "@/lib/actions/community.actions";
+import CommunityCard from "@/components/cards/CommunityCard";
 
 const Search = async () => {
   const { user, userProfile } =
@@ -29,13 +30,14 @@ const Search = async () => {
           <>
             {communities.map((community) => {
               return (
-                <UserCard
+                <CommunityCard
                   key={community.id}
                   id={community.id}
                   name={community.name}
                   username={community.username}
                   imgUrl={community.image}
-                  personType='Community'
+                  bio={community.bio}
+                  members={community.members}
                 />
               );
             })}

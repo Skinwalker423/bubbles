@@ -1,36 +1,32 @@
 import React from "react";
 import AccountProfile from "@/components/forms/AccountProfile";
 import { currentUser } from "@clerk/nextjs";
-import User from "@/lib/models/user.model";
 import { redirect } from "next/navigation";
 import { UserDataProps } from "@/lib/types";
+import { fetchUser } from "@/lib/actions/user.actions";
 
 const Onboarding = async () => {
   const user = await currentUser();
   if (!user) return null;
-  const userInDb = await User.findOne({
-    id: user?.id,
-  });
+  const userInfo = await fetchUser(user.id);
 
-  if (userInDb?.onboarded) {
+  if (userInfo?.onboarded) {
     redirect("/");
   }
-
-  const userInfo = {
-    _id: "",
-    username: "",
-    name: "",
-    bio: "",
-    image: user?.imageUrl,
-  };
 
   const userData: UserDataProps = {
     id: user?.id,
     objectId: userInfo?._id,
-    username: user?.username || userInfo.username,
-    name: user?.lastName || userInfo.name || "",
-    bio: userInfo?.bio || "",
-    image: userInfo?.image || user?.imageUrl || "",
+    username: user.username
+      ? user?.username
+      : userInfo.username,
+    name: userInfo.name
+      ? userInfo.name
+      : user?.lastName || "",
+    bio: userInfo.bio ? userInfo?.bio : "",
+    image: userInfo?.image
+      ? userInfo?.image
+      : user?.imageUrl || "",
   };
 
   return (
