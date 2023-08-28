@@ -1,7 +1,6 @@
 import { fetchBubbles } from "@/lib/actions/bubble.actions";
 import BubbleCard from "@/components/cards/BubbleCard";
 import { currentUser } from "@clerk/nextjs";
-import User from "@/lib/models/user.model";
 import { fetchUser } from "@/lib/actions/user.actions";
 
 export default async function Home() {
