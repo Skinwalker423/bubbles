@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { fetchBubbles } from "@/lib/actions/bubble.actions";
 import BubbleCard from "@/components/cards/BubbleCard";
 import { currentUser } from "@clerk/nextjs";

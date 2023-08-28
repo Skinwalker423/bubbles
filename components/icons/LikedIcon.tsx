@@ -23,9 +23,6 @@ const LikedIcon = ({
   const path = usePathname();
   const [isLiked, setIsLiked] = useState(liked);
 
-  console.log("liked:", liked);
-  console.log("isliked:", isLiked);
-
   return (
     <button
       type='button'

@@ -240,14 +240,21 @@ export const fetchCurrentUserAndUserProfile = async (
 
   const userProfile = await User.findOne({
     id: user?.id,
-  }).populate({
-    path: "bubbles",
-    model: "Bubble",
-    populate: {
-      path: "author",
-      model: "User",
-    },
-  });
+  })
+    .populate({
+      path: "bubbles",
+      model: "Bubble",
+      populate: [
+        {
+          path: "author",
+          model: "User",
+        },
+      ],
+    })
+    .populate({
+      path: "likes",
+      model: Bubble,
+    });
 
   const profile = await User.findOne({
     id: id,

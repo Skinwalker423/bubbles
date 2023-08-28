@@ -5,6 +5,7 @@ import Community from "../models/community.model";
 import User from "../models/user.model";
 import Bubble from "../models/bubble.model";
 import { FilterQuery, SortOrder } from "mongoose";
+import { fetchCurrentUserAndUserProfile } from "./user.actions";
 
 export async function createCommunity(
   id: string,
@@ -338,6 +339,95 @@ export async function deleteCommunity(communityId: string) {
     return deletedCommunity;
   } catch (error) {
     console.error("Error deleting community: ", error);
+    throw error;
+  }
+}
+
+export async function fetchSuggestedCommunities({
+  pageNumber = 1,
+  pageSize = 20,
+  sortBy = "desc",
+}: {
+  pageNumber?: number;
+  pageSize?: number;
+  sortBy?: SortOrder;
+}) {
+  try {
+    connectToMongoDb();
+
+    // Calculate the number of communities to skip based on the page number and page size.
+    const skipAmount = (pageNumber - 1) * pageSize;
+
+    // Create a case-insensitive regular expression for the provided search string.
+    // const regex = new RegExp(searchString, "i");
+
+    // Create an initial query object to filter communities.
+    const query: FilterQuery<typeof Community> = {};
+
+    let communityIds: string[] = [];
+
+    const { userProfile } =
+      await fetchCurrentUserAndUserProfile();
+
+    if (userProfile) {
+      console.log(
+        "user profile fetching suggested communities",
+        userProfile
+      );
+      userProfile.likes.forEach(
+        (bubble: { community: string; _id: string }) => {
+          console.log(
+            "each bubble from user profile likes",
+            bubble
+          );
+          const isInExistingCommunities =
+            userProfile.communities.includes(
+              bubble.community
+            );
+          console.log(
+            "already exists in communities",
+            isInExistingCommunities
+          );
+          if (
+            !isInExistingCommunities &&
+            bubble.community !== null
+          ) {
+            communityIds.push(bubble.community);
+          }
+        }
+      );
+
+      console.log("community ids", communityIds);
+      if (communityIds.length > 0) {
+        query.$or = [{ _id: { $in: communityIds } }];
+      }
+    }
+
+    // Define the sort options for the fetched communities based on createdAt field and provided sort order.
+    const sortOptions = { createdAt: sortBy };
+
+    // Create a query to fetch the communities based on the search and sort criteria.
+    const communitiesQuery = Community.find(query)
+      .sort(sortOptions)
+      .skip(skipAmount)
+      .limit(pageSize)
+      .populate("members");
+
+    // Count the total number of communities that match the search criteria (without pagination).
+    const totalCommunitiesCount =
+      await Community.countDocuments(query);
+
+    const suggestedCommunities =
+      await communitiesQuery.exec();
+
+    // Check if there are more communities beyond the current page.
+    const isNext =
+      totalCommunitiesCount >
+      skipAmount + suggestedCommunities.length;
+
+    return { suggestedCommunities, isNext };
+  } catch (error) {
+    console.error("Error fetching communities:", error);
     throw error;
   }
 }
