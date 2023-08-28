@@ -2,14 +2,13 @@ import { fetchBubbles } from "@/lib/actions/bubble.actions";
 import BubbleCard from "@/components/cards/BubbleCard";
 import { currentUser } from "@clerk/nextjs";
 import User from "@/lib/models/user.model";
+import { fetchUser } from "@/lib/actions/user.actions";
 
 export default async function Home() {
   const { posts, isNext } = await fetchBubbles(1, 30);
   const user = await currentUser();
-
-  const userDb = await User.findOne({
-    id: user?.id,
-  });
+  if (!user) return;
+  const userDb = await fetchUser(user.id);
 
   const bubblesList = posts.map(
     ({
