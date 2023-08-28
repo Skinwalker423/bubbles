@@ -370,24 +370,13 @@ export async function fetchSuggestedCommunities({
       await fetchCurrentUserAndUserProfile();
 
     if (userProfile) {
-      console.log(
-        "user profile fetching suggested communities",
-        userProfile
-      );
       userProfile.likes.forEach(
         (bubble: { community: string; _id: string }) => {
-          console.log(
-            "each bubble from user profile likes",
-            bubble
-          );
           const isInExistingCommunities =
             userProfile.communities.includes(
               bubble.community
             );
-          console.log(
-            "already exists in communities",
-            isInExistingCommunities
-          );
+
           if (
             !isInExistingCommunities &&
             bubble.community !== null
@@ -396,6 +385,8 @@ export async function fetchSuggestedCommunities({
           }
         }
       );
+
+      // check reply comments for parentid community and add to communityIds
 
       console.log("community ids", communityIds);
       if (communityIds.length > 0) {
