@@ -1,5 +1,10 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+![bubbles](https://github.com/Skinwalker423/bubbles/assets/85347852/ae62b703-2346-44bf-a384-68f7766300dc)
+
+
+https://bubbles-ten-inky.vercel.app/
+
 ## Getting Started
 
 First, run the development server:
